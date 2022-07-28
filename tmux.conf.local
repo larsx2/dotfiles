@@ -300,5 +300,15 @@ unbind C-b
 set -g prefix C-a
 bind C-a send-prefix
 
+# move forward and backwards between sessions
+unbind [
+unbind ]
+bind [ switch-client -p
+bind ] switch-client -n
+
+# fuzzy search by session name
+unbind f
+bind f command-prompt -p find-session "switch-client -t %%"
+
 # move status line to top
 #set -g status-position top
