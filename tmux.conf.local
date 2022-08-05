@@ -309,5 +309,9 @@ bind f command-prompt -p find-session "switch-client -t %%"
 # go to last session
 bind-key \\ switch-client -l
 
+# disable window navigation with Ctrl
+unbind C-h
+unbind C-l
+
 # move status line to top
 #set -g status-position top
