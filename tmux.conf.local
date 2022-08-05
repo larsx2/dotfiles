@@ -289,10 +289,6 @@ set -g mode-keys vi
 # replace C-b by C-a instead of using both prefixes
 # set -gu prefix2
 # unbind C-a
-unbind p
-unbind n
-bind p previous-window # select previous window
-bind n next-window     # select next window
 
 set-option -g repeat-time 0
 
@@ -303,12 +299,15 @@ bind C-a send-prefix
 # move forward and backwards between sessions
 unbind [
 unbind ]
-bind [ switch-client -p
-bind ] switch-client -n
+bind [ previous-window
+bind ] next-window
 
 # fuzzy search by session name
 unbind f
 bind f command-prompt -p find-session "switch-client -t %%"
+
+# go to last session
+bind-key \\ switch-client -l
 
 # move status line to top
 #set -g status-position top
