@@ -74,10 +74,10 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-;;
+;https://github.com/tecosaur/emacs-config/pulse;
 
 (map! :leader
-      (:prefix-map ("a" . "applications")
+      (:prefix-map ("j" . "jump")
        :desc "Find definition" "d" #'lsp-find-definition
        :desc "Find references" "r" #'lsp-find-references
        :desc "Find implementation" "i" #'lsp-find-implementation
@@ -86,8 +86,20 @@
        :desc "Peek implementation" "I" #'lsp-ui-peek-find-implementation
        :desc "Jump to line" "l" #'avy-goto-line
        :desc "Jump to timer" "j" #'avy-goto-char-timer
-       :desc "Open lsp-ui menu" "m" #'lsp-ui-imenu)
+       (:prefix-map ("o" . "other")
+        :desc "Jump to definition in other window" "d" #'xref-find-definitions-other-window
+        )
+       )
 
+      (:prefix-map ("a" . "applications")
+       :desc "Open lsp-ui menu" "m" #'lsp-ui-imenu
+       (:prefix-map ("h" . "highlight")
+        :desc "Next symbol occurrence" "n" #'embark-next-symbol
+        :desc "Previous symbol occurrence" "p" #'embark-previous-symbol
+        :desc "Highlight at point" "h" #'highlight-symbol-at-point
+        :desc "Unhighlight at point" "u" #'unhighlight-regexp
+        )
+       )
 
       (:prefix-map ("e" . "errors")
        :desc "Show errors in buffer" "e" #'flycheck-list-errors
@@ -97,14 +109,18 @@
        :desc "Show previous error in buffer" "p" #'flycheck-previous-error)
       )
 
+;; lsp ui configurations
 (after! lsp-ui
   (setq lsp-ui-peek-always-show t)
   (setq lsp-headerline-breadcrumb-enable t)
-  (setq lsp-headerline-breadcrumb-icons-enable t)
-  )
+  (setq lsp-headerline-breadcrumb-icons-enable t))
 
 (setq-hook! 'typescript-mode-hook +format-with-lsp nil)
 (setq-hook! 'typescript-mode-hook +format-with #'prettier-mode)
 
-(after! flycheck-mode-hook
-  (setq flycheck-highlighting-mode "lines"))
+;; fix mouse support inside tmux
+(global-set-key [mouse-4] 'scroll-down-line)
+(global-set-key [mouse-5] 'scroll-up-line)
+
+;; do not show tool bar
+(setq tool-bar-mode nil)
