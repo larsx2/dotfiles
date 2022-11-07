@@ -78,6 +78,9 @@
 
 (map! :leader
       (:prefix-map ("j" . "jump")
+        (:prefix-map ("o" . "other")
+          :desc "Jump to definition in other window" "d" #'xref-find-definitions-other-window)
+
        :desc "Find definition" "d" #'lsp-find-definition
        :desc "Find references" "r" #'lsp-find-references
        :desc "Find implementation" "i" #'lsp-find-implementation
@@ -86,9 +89,7 @@
        :desc "Peek implementation" "I" #'lsp-ui-peek-find-implementation
        :desc "Jump to line" "l" #'avy-goto-line
        :desc "Jump to timer" "j" #'avy-goto-char-timer
-       (:prefix-map ("o" . "other")
-        :desc "Jump to definition in other window" "d" #'xref-find-definitions-other-window
-        )
+
        )
 
       (:prefix-map ("a" . "applications")
@@ -124,3 +125,6 @@
 
 ;; do not show tool bar
 (setq tool-bar-mode nil)
+
+;; disable evil mode on vterm
+(add-hook 'vterm-mode-hook 'evil-emacs-state)
