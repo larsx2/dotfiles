@@ -89,11 +89,15 @@
        :desc "Peek implementation" "I" #'lsp-ui-peek-find-implementation
        :desc "Jump to line" "l" #'avy-goto-line
        :desc "Jump to timer" "j" #'avy-goto-char-timer
+       :desc "Jump to char 2" "s" #'avy-goto-char-2
+       :desc "Jump to word" "w" #'avy-goto-word-1
+       :desc "Jump to char" "c" #'avy-goto-char
 
        )
 
       (:prefix-map ("a" . "applications")
        :desc "Open lsp-ui menu" "m" #'lsp-ui-imenu
+       :desc "Format lsp buffer" "=" #'lsp-format-buffer
        (:prefix-map ("h" . "highlight")
         :desc "Next symbol occurrence" "n" #'embark-next-symbol
         :desc "Previous symbol occurrence" "p" #'embark-previous-symbol
@@ -126,5 +130,11 @@
 ;; do not show tool bar
 (setq tool-bar-mode nil)
 
+;; vterm configurations
 ;; disable evil mode on vterm
 (add-hook 'vterm-mode-hook 'evil-emacs-state)
+(setq vterm-kill-buffer-on-exit t)
+(setq vterm-always-compile-module t)
+
+;; override dired
+(dirvish-override-dired-mode)
