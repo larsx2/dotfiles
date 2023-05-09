@@ -87,6 +87,7 @@
        :desc "Peek references" "R" #'lsp-ui-peek-find-references
        :desc "Peek definition" "D" #'lsp-ui-peek-find-definitions
        :desc "Peek implementation" "I" #'lsp-ui-peek-find-implementation
+       :desc "Peek type definition" "t" #'+lookup/type-definition
        :desc "Jump to line" "l" #'avy-goto-line
        :desc "Jump to timer" "j" #'avy-goto-char-timer
        :desc "Jump to char 2" "s" #'avy-goto-char-2
@@ -98,6 +99,7 @@
       (:prefix-map ("a" . "applications")
        :desc "Open lsp-ui menu" "m" #'lsp-ui-imenu
        :desc "Format lsp buffer" "=" #'lsp-format-buffer
+       :desc "Rip grep " "/" #'consult-ripgrep
        (:prefix-map ("h" . "highlight")
         :desc "Next symbol occurrence" "n" #'embark-next-symbol
         :desc "Previous symbol occurrence" "p" #'embark-previous-symbol
