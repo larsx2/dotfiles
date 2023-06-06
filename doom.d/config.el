@@ -140,3 +140,5 @@
 
 ;; override dired
 (dirvish-override-dired-mode)
+
+(use-package! lsp-tailwindcss)
