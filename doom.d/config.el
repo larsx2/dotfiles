@@ -93,18 +93,32 @@
        :desc "Jump to char 2" "s" #'avy-goto-char-2
        :desc "Jump to word" "w" #'avy-goto-word-1
        :desc "Jump to char" "c" #'avy-goto-char
-
+       :desc "Lookup file" "f" #'+lookup/file
        )
 
       (:prefix-map ("a" . "applications")
+       :desc "Search file" "f" #'+vertico/consult-fd
+       :desc "Search term in project" "r" #'+vertico/project-search
+       :desc "Enable lsp-mode" "l" #'lsp
+       :desc "Toggle lsp sideline info" "i" #'lsp-ui-sideline-toggle-symbols-info
+       :desc "Consult LSP symbol in workspace" "j" #'consult-lsp-symbols
+       :desc "Search symbol in file" "s" #'consult-lsp-file-symbols
        :desc "Open lsp-ui menu" "m" #'lsp-ui-imenu
        :desc "Format lsp buffer" "=" #'lsp-format-buffer
+       :desc "Open Dirvish" "d" #'dirvish
+       :desc "Show doc at glance" "t" #'lsp-ui-doc-glance
        :desc "Rip grep " "/" #'consult-ripgrep
+       :desc "Find next symbol reference" "n" #'lsp-ui-find-next-reference
+       :desc "Find previous symbol reference" "p" #'lsp-ui-find-prev-reference
        (:prefix-map ("h" . "highlight")
         :desc "Next symbol occurrence" "n" #'embark-next-symbol
         :desc "Previous symbol occurrence" "p" #'embark-previous-symbol
         :desc "Highlight at point" "h" #'highlight-symbol-at-point
         :desc "Unhighlight at point" "u" #'unhighlight-regexp
+        )
+       (:prefix-map ("w" . "windows")
+        :desc "Make all windows area the same" "=" #'balance-windows-area
+        :desc "Go back to the last accessed window" "l" #'evil-window-mru
         )
        )
 
@@ -123,7 +137,21 @@
   (setq lsp-headerline-breadcrumb-icons-enable t))
 
 (setq-hook! 'typescript-mode-hook +format-with-lsp nil)
-(setq-hook! 'typescript-mode-hook +format-with #'prettier-mode)
+(setq-hook! 'typescript-mode-hook +format-with 'prettier)
+;; (add-hook 'typescript-mode-hook #'lsp-deferred)
+;; (setq +format-on-save-enabled-modes
+;;       '(not emacs-lisp-mode  ; elisp's mechanisms are good enough
+;;             sql-mode         ; sqlformat is currently broken
+;;             tex-mode         ; latexindent is broken
+;;             latex-mode))
+(use-package! prettier
+ :when (modulep! :editor format)
+ :hook (typescript-mode . prettier-mode))
+
+;; (after! typescript-mode
+;;   (setq typescript-indent-level 2))
+;; (add-hook! typescript-tsx-ts-mode 'lsp!)
+
 
 ;; fix mouse support inside tmux
 (global-set-key [mouse-4] 'scroll-down-line)
@@ -134,7 +162,7 @@
 
 ;; vterm configurations
 ;; disable evil mode on vterm
-(add-hook 'vterm-mode-hook 'evil-emacs-state)
+;; (add-hook 'vterm-mode-hook 'evil-emacs-state)
 (setq vterm-kill-buffer-on-exit t)
 (setq vterm-always-compile-module t)
 
@@ -142,3 +170,32 @@
 (dirvish-override-dired-mode)
 
 (use-package! lsp-tailwindcss)
+
+(use-package! python-black
+  :demand t
+  :after python
+  :config
+  (add-hook! 'python-mode-hook #'python-black-on-save-mode)
+  ;; Feel free to throw your own personal keybindings here
+  (map! :leader :desc "Blacken Buffer" "m b b" #'python-black-buffer)
+  (map! :leader :desc "Blacken Region" "m b r" #'python-black-region)
+  (map! :leader :desc "Blacken Statement" "m b s" #'python-black-statement)
+)
+
+;;; add to $DOOMDIR/config.el
+(advice-add #'add-node-modules-path :override #'ignore)
+
+;; (after! projectile (setq projectile-project-root-files-bottom-up (remove ".git"
+;;         projectile-project-root-files-bottom-up)))
+
+;;;(customize-set-variable 'doom-themes-treemacs-theme "doom-colors")
+(with-eval-after-load 'doom-themes
+  (doom-themes-treemacs-config))
+
+;; disable lsp file watchers
+(setq lsp-enable-file-watchers nil)
+
+(setq debug-on-error nil)
+(global-tree-sitter-mode)
+
+(yas-global-mode 1)
