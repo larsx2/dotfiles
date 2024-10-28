@@ -69,6 +69,41 @@ local plugins = {
     end,
     lazy = false,
   },
+
+  {
+    "chrisbra/NrrwRgn",
+    lazy = false,
+  },
+
+  {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    lazy = false,
+  },
+
+  {
+    "hedyhli/outline.nvim",
+    lazy = true,
+    cmd = { "Outline", "OutlineOpen" },
+    config = function()
+      require("outline").setup({})
+    end,
+  },
+
+  {
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    lazy = true,
+    cmd = { "TodoTelescope", "TodoTrouble" },
+    config = function()
+      require("todo-comments").setup({})
+    end,
+  },
+
+  {
+    "folke/twilight.nvim",
+    lazy = false,
+  },
 }
 
 return plugins
