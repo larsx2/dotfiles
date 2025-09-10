@@ -1,0 +1,8 @@
+font-family = "MesloLGL Nerd Font Regular"
+font-size = 20
+theme = catppuccin-macchiato.conf
+cursor-style = bar
+keybind = global:cmd+shift+grave_accent=toggle_quick_terminal
+quick-terminal-position = bottom
+keybind = shift+enter=text:\n
+macos-option-as-alt = false
