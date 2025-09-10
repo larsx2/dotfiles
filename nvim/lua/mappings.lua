@@ -40,8 +40,13 @@ map("n", "<leader>e", "<cmd> NvimTreeToggle <CR>", { desc = "Toggle NvimTree" })
 map("n", "<leader>o", "<cmd>Outline<CR>", { desc = "Open outline" })
 
 -- Trouble
-map("n", "<leader>qq", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Diagnostics (Trouble)" })
-map("n", "<leader>qb", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", { desc = "Buffer Diagnostics (Trouble)" })
+map("n", "<leader>qq", "<cmd>Trouble diagnostics toggle focus=true<cr>", { desc = "Diagnostics (Trouble)" })
+map(
+  "n",
+  "<leader>qb",
+  "<cmd>Trouble diagnostics toggle filter.buf=0 focus=true<cr>",
+  { desc = "Buffer Diagnostics (Trouble)" }
+)
 map("n", "<leader>qs", "<cmd>Trouble symbols toggle focus=false<cr>", { desc = "Symbols (Trouble)" })
 map(
   "n",
@@ -68,8 +73,8 @@ map(
 -- Tabs
 map("n", "<leader>tn", "<cmd>tabnew<cr>", { desc = "Create new tab" })
 map("n", "<leader>td", "<cmd>tabclose<cr>", { desc = "Close current tab" })
-map("n", "<leader>t]", "<cmd>tabnext<cr>", { desc = "Close current tab" })
-map("n", "<leader>t[", "<cmd>tabprevious<cr>", { desc = "Close current tab" })
+map("n", "<leader>t]", "<cmd>tabnext<cr>", { desc = "Go to next tab" })
+map("n", "<leader>t[", "<cmd>tabprevious<cr>", { desc = "Go to previous tab" })
 map("n", "<leader>to", "<cmd>tabonly<cr>", { desc = "Close all tabs but the current one" })
 map("n", "<leader>tf", "<cmd>tabfirst<cr>", { desc = "Go to first tab" })
 map("n", "<leader>tl", "<cmd>tablast<cr>", { desc = "Go to last tab" })
@@ -114,3 +119,9 @@ map("n", "<leader>dv", function()
 end, {
   desc = "Toggle Diffview window",
 })
+
+-- Function selection
+map("v", "aP", "V$%", { desc = "Visual select: V + $ + %" })
+
+-- Toggle Claude Code
+map("n", "<leader>cc", "<cmd>ClaudeCode<CR>", { desc = "Toggle Claude Code" })

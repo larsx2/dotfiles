@@ -1,28 +1,40 @@
 return {
   {
     "stevearc/conform.nvim",
-    event = { "BufWritePre", "BufNewFile" }, -- uncomment for format on save
-    opts = require "configs.conform",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {
+      formatters_by_ft = {
+        javascript = { "prettierd", "prettier" },
+        javascriptreact = { "prettierd", "prettier" },
+        typescript = { "prettierd", "prettier" },
+        typescriptreact = { "prettierd", "prettier" },
+        json = { "prettierd", "prettier" },
+        lua = { "stylua" },
+        python = { "black" },
+      },
+      format_on_save = {
+        lsp_fallback = true,
+        timeout_ms = 500,
+      },
+    },
   },
 
   {
     "mfussenegger/nvim-lint",
-    event = {
-      "BufReadPre",
-      "BufNewFile",
-    },
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       local lint = require "lint"
 
       lint.linters_by_ft = {
         javascript = { "eslint_d" },
+        javascriptreact = { "eslint_d" },
         typescript = { "eslint_d" },
+        typescriptreact = { "eslint_d" },
       }
 
-      local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
-
-      vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
-        group = lint_augroup,
+      local grp = vim.api.nvim_create_augroup("lint", { clear = true })
+      vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+        group = grp,
         callback = function()
           lint.try_lint()
         end,
@@ -48,6 +60,7 @@ return {
         "python",
         "html",
         "css",
+        "graphql",
       },
     },
   },
@@ -79,17 +92,17 @@ return {
 
   {
     "smoka7/hop.nvim",
-    tag = "*",
+    tag = "v2.7.2",
     config = function()
       require("hop").setup { keys = "etovxqpdygfblzhckisuran" }
     end,
     lazy = false,
   },
 
-  {
-    "neoclide/coc.nvim",
-    lazy = false,
-  },
+  -- {
+  --   "neoclide/coc.nvim",
+  --   lazy = false,
+  -- },
   {
     "NeogitOrg/neogit",
     dependencies = {
@@ -120,6 +133,74 @@ return {
 
   {
     "MattesGroeger/vim-bookmarks",
+    lazy = false,
+  },
+
+  {
+    "mfussenegger/nvim-dap",
+    dependencies = { "rcarriga/nvim-dap-ui", "mfussenegger/nvim-dap-python" },
+    config = function()
+      require("dapui").setup()
+      require "configs.dap"
+      -- Basic config for dap can go here
+    end,
+    lazy = false,
+  },
+
+  {
+    "nvim-neotest/neotest",
+    dependencies = {
+      "nvim-neotest/nvim-nio",
+      "nvim-lua/plenary.nvim",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-neotest/neotest-jest",
+    },
+    config = function()
+      require("neotest").setup {
+        adapters = {
+          require "neotest-jest",
+        },
+      }
+    end,
+    lazy = false,
+  },
+  {
+    "nvim-tree/nvim-tree.lua",
+    opts = function(_, opts)
+      opts.filters.dotfiles = true -- hide dotfiles
+      return opts
+    end,
+  },
+
+  {
+    {
+      "olimorris/codecompanion.nvim",
+      tag = "v17.16.0",
+      config = function()
+        require("codecompanion").setup {
+          strategies = {
+            chat = {
+              adapter = "anthropic",
+            },
+            inline = {
+              adapter = "anthropic",
+            },
+          },
+        }
+      end,
+      lazy = false,
+    },
+  },
+
+  {
+    "greggh/claude-code.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    config = function()
+      require("claude-code").setup()
+    end,
     lazy = false,
   },
 }
