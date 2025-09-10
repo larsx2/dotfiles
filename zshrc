@@ -97,10 +97,27 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-alias zshconfig="vim ~/.zshrc"
+alias zshrc="nvim ~/.zshrc"
+alias nvim-init="nvim ~/.config/nvim/lua/plugins/init.lua"
+alias nvim-mappings="nvim ~/.config/nvim/lua/mappings.lua"
+alias view="nvim -R"
+alias z="zellij"
+
+# https://github.com/zellij-org/zellij/issues/1933#issuecomment-2274464004
+autoload -U +X compinit && compinit
+. <( zellij setup --generate-completion zsh | sed -Ee 's/^(_(zellij) ).*/compdef \1\2/' )
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# Docker compose aliases
+if [ "$(uname -m)" = "arm64" ]; then
+  export DOCKER_DEFAULT_PLATFORM=linux/arm64
+else
+  export DOCKER_DEFAULT_PLATFORM=linux/amd64
+fi
+
+
+######################
+####### DOCKER #######
+######################
 alias dc="docker compose"
 alias dupd="docker compose up -d"
 alias ddown="docker compose down"
@@ -123,6 +140,11 @@ alias dreload="docker compose restart"
 alias dkill="docker compose kill"
 alias dstart="docker compose start"
 alias dstop="docker compose stop"
+dnuke() {
+  ids=$(docker ps -aq)
+  [ -z "$ids" ] && return 0
+  docker rm -fv $ids >/dev/null 2>&1 || true   # -f stops running containers; -v removes anon volumes
+}
 
 # Load NVM
 export NVM_DIR="$HOME/.nvm"
@@ -135,3 +157,79 @@ export NVM_DIR="$HOME/.nvm"
 # Load zsh-z
 ZSH_Z_PATH=~/Code/zsh-z/zsh-z.plugin.zsh
 [ -f $ZSH_Z_PATH ] && source $ZSH_Z_PATH
+
+#####################
+######## AWS ########
+#####################
+export AWS_PAGER=
+export AWS_DEFAULT_OUTPUT=yaml-stream
+
+#####################
+#### GIT ALIASES ####
+#####################
+
+export GIT_PAGER="bat --style grid,numbers"
+
+alias gb="git branch | fzf"
+alias gdpr="git diff origin/main...HEAD"
+export FZF_DEFAULT_OPTS=$'--bind=ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down,ctrl-b:preview-page-up,ctrl-f:preview-page-down,alt-k:preview-up,alt-j:preview-down'
+
+alias gdprf='git diff --name-only origin/main...HEAD \
+  | fzf -m --ansi \
+      --preview "git --no-pager diff --color=always origin/main...HEAD -- {}" \
+  | xargs -r -o nvim'
+
+# git status file pick with preview (porcelain safe)
+alias gstfp="git status --porcelain \
+  | cut -c4- \
+  | fzf -m --preview 'git diff --color=always -- {}' \
+  | xargs -r nvim"
+
+# git conflict file pick
+alias gcnfp='git diff --name-only --diff-filter=U | fzf -m | xargs nvim'
+
+# git commit view
+alias gcv="git log --oneline \
+  | fzf -m --layout=reverse --preview 'git show --color=always {1}' \
+  | awk '{print \$1}' \
+  | xargs -r git show"
+alias gcmv="gcv"
+
+# git stash pick (with preview)
+alias gstv="git stash list --pretty='%gd %cr %s' \
+  | fzf -m --preview 'git stash show -p --color=always {1}' \
+  | awk '{print \$1}' \
+  | xargs -r -n1 git stash show -p --color=always"
+
+# git unstaged file pick -> stage (with preview)
+alias gstage="git status --porcelain | grep '^ [^ ]' | cut -c4- \
+  | fzf -m --preview 'git diff --color=always -- {}' \
+  | xargs -r git add --"
+
+# git staged file pick → unstage (with preview)
+alias gunstage="git status --porcelain | grep '^[^ ]' | cut -c4- \
+  | fzf -m --preview 'git diff --cached --color=always -- {}' \
+  | xargs -r git restore --staged --"
+
+# git staged file pick with preview
+alias gdfp="git diff --cached --name-only \
+  | fzf -m --preview 'git diff --cached --color=always -- {}' \
+  | xargs -r -o nvim"
+
+# git unstaged file pick with preview
+alias gdcafp="git status --porcelain | egrep '^ [^ ]|^\?\?' | cut -c4- \
+  | fzf -m --preview 'git diff --color=always -- {}' \
+  | xargs -r nvim"
+
+# pick and edit file from pr change
+alias gdpre='nvim $(git diff --name-only origin/main...HEAD | fzf -m)'
+
+# only stash the non-staged
+alias gtk="git stash -k"
+
+# pick branch by most recent with commit preview
+alias gcof="git branch --sort=-committerdate --format='%(committerdate:iso-strict) %(refname:short)' \
+  | fzf --ansi --delimiter=' ' --with-nth=2.. \
+        --preview 'git log -n 5 --oneline --graph --decorate --color=always {2}' \
+  | cut -d' ' -f2 \
+  | xargs git checkout"
