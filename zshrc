@@ -228,8 +228,10 @@ alias gdpre='nvim $(git diff --name-only origin/main...HEAD | fzf -m)'
 alias gtk="git stash -k"
 
 # pick branch by most recent with commit preview
-alias gcof="git branch --sort=-committerdate --format='%(committerdate:iso-strict) %(refname:short)' \
-  | fzf --ansi --delimiter=' ' --with-nth=2.. \
-        --preview 'git log -n 5 --oneline --graph --decorate --color=always {2}' \
-  | cut -d' ' -f2 \
-  | xargs git checkout"
+alias gcof='git fetch -p origin >/dev/null 2>&1; \
+  git for-each-ref refs/heads refs/remotes/origin \
+    --sort=-committerdate --format="%(committerdate:iso-strict)|%(refname:short)" \
+  | fzf --reverse --ansi --delimiter="|" --with-nth=2 \
+        --preview "git log -n 5 --oneline --graph --decorate --color=always {2}" \
+  | cut -d"|" -f2 | sed "s|^origin/||" \
+  | xargs -I{} sh -c "git switch {} 2>/dev/null || git switch --track origin/{}"'
