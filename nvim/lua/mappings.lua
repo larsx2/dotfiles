@@ -85,11 +85,19 @@ map("n", "<leader>gbl", "<cmd>Gitsigns blame_line<cr>", { desc = "Gitsigns blame
 map("n", "<leader>gn", "<cmd>Gitsigns next_hunk<cr>", { desc = "Gitsigns next hunk" })
 map("n", "<leader>gp", "<cmd>Gitsigns prev_hunk<cr>", { desc = "Gitsigns prev hunk" })
 map("n", "<leader>gP", "<cmd>Gitsigns preview_hunk<cr>", { desc = "Gitsigns preview hunk" })
-map("n", "<leader>gH", "<cmd>Gitsigns reset_hunk<cr>", { desc = "Gitsigns rest hunk" })
+map("n", "<leader>gH", "<cmd>Gitsigns reset_hunk<cr>", { desc = "Gitsigns reset hunk" })
 map("n", "<leader>gR", "<cmd>Gitsigns reset_buffer<cr>", { desc = "Gitsigns reset buffer" })
 map("n", "<leader>gS", "<cmd>Gitsigns stage_buffer<cr>", { desc = "Gitsigns stage buffer" })
 map("n", "<leader>gU", "<cmd>Gitsigns reset_buffer_index<cr>", { desc = "Gitsigns unstage buffer" })
 map("n", "<leader>gD", "<cmd>Gitsigns diffthis<cr>", { desc = "Gitsigns diff buffer" })
+map("n", "<leader>gR", "<cmd>Gitsigns reset_base<cr>", { desc = "Gitsigns reset base to HEAD" })
+map("n", "<leader>gB", function()
+  gs.change_base "origin/main"
+  gs.toggle_deleted()
+  gs.toggle_linehl()
+  gs.toggle_numhl()
+  vim.notify "Gitsigns base set to origin/main"
+end, { desc = "Gitsigns diff vs origin/main with line highlights" })
 
 map("n", "]c", function()
   if vim.wo.diff then
@@ -118,6 +126,17 @@ map("n", "<leader>dv", function()
   end
 end, {
   desc = "Toggle Diffview window",
+})
+
+map("n", "<leader>dp", function()
+  local dv = require "diffview.lib"
+  if next(dv.views) == nil then
+    vim.cmd "DiffviewOpen origin/main..HEAD"
+  else
+    vim.cmd "DiffviewClose"
+  end
+end, {
+  desc = "Toggle Diffview vs origin/main",
 })
 
 -- Function selection
