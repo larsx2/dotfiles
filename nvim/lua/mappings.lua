@@ -131,7 +131,7 @@ end, {
 map("n", "<leader>dp", function()
   local dv = require "diffview.lib"
   if next(dv.views) == nil then
-    vim.cmd "DiffviewOpen origin/main..HEAD"
+    vim.cmd "DiffviewOpen origin/main...HEAD"
   else
     vim.cmd "DiffviewClose"
   end
