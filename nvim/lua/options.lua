@@ -10,3 +10,15 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.commentstring = "# %s"
   end,
 })
+
+-- ~/.config/nvim/lua/custom/init.lua
+vim.opt.diffopt = {
+  "internal",
+  "filler",
+  "closeoff",
+  "context:12",
+  "algorithm:histogram",
+  "linematch:200",
+  "indent-heuristic",
+  "iwhite", -- toggle when needed
+}

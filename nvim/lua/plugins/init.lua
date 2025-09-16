@@ -1,3 +1,13 @@
+-- vim.opt.diffopt = {
+--   "internal",
+--   "filler",
+--   "closeoff",
+--   "context:12",
+--   "algorithm:histogram",
+--   "linematch:200",
+--   "indent-heuristic",
+--   "iwhite", -- I toggle this one, it doesn't fit all cases.
+-- }
 return {
   {
     "stevearc/conform.nvim",
@@ -104,16 +114,27 @@ return {
   --   lazy = false,
   -- },
   {
-    "NeogitOrg/neogit",
-    dependencies = {
-      "nvim-lua/plenary.nvim", -- required
-      "sindrets/diffview.nvim", -- optional - Diff integration
 
-      -- Only one of these is needed.
-      "nvim-telescope/telescope.nvim", -- optional
-    },
-    lazy = false,
+    "sindrets/diffview.nvim", -- optional - Diff integration
+    config = function()
+      vim.api.nvim_set_hl(0, "DiffAdd", { bg = "#20303b" })
+      vim.api.nvim_set_hl(0, "DiffDelete", { bg = "#37222c" })
+      vim.api.nvim_set_hl(0, "DiffChange", { bg = "#1f2231" })
+      vim.api.nvim_set_hl(0, "DiffText", { bg = "#394b70" })
+      require "configs.diffview"
+    end,
   },
+  -- {
+  --   "NeogitOrg/neogit",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim", -- required
+  --     "sindrets/diffview.nvim", -- optional - Diff integration
+  --
+  --     -- Only one of these is needed.
+  --     "nvim-telescope/telescope.nvim", -- optional
+  --   },
+  --   lazy = false,
+  -- },
   {
     "tpope/vim-fugitive",
     lazy = false,
