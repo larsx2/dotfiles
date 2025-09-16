@@ -16,16 +16,16 @@ map("n", "<C-k>", "<C-w>k", { desc = "Window up" })
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
 
 -- Telescope
-map("n", "<space>fe", "<cmd>Telescope diagnostics<CR>", { desc = "See issues" })
-map("n", "<space>fr", "<cmd>Telescope oldfiles<CR>", { desc = "See old files" })
+map("n", "<space>fe", "<cmd>Telescope diagnostics<CR>", { desc = "See errors" })
 map("n", "<space>jd", "<cmd>Telescope lsp_definitions<CR>", { desc = "Open lsp definiions" })
 map("n", "<space>jr", "<cmd>Telescope lsp_references<CR>", { desc = "Open lsp references" })
 map("n", "<space>jt", "<cmd>Telescope lsp_type_definitions<CR>", { desc = "Open lsp type definitions" })
 map("n", "<space>ji", "<cmd>Telescope lsp_implementations<CR>", { desc = "Open lsp implementations" })
-map("n", "<space>ga", "<cmd>Telescope git_branches<CR>", { desc = "See all branches" })
-map("n", "<space>gca", "<cmd>Telescope git_commits<CR>", { desc = "See all git commits" })
-map("n", "<space>gcb", "<cmd>Telescope git_bcommits<CR>", { desc = "See buffer commits" })
-map("n", "<space>gz", "<cmd>Telescope git_stash<CR>", { desc = "See git stash" })
+map("n", "<space>fbl", "<cmd>Telescope git_branches<CR>", { desc = "See all branches" })
+map("n", "<space>fgc", "<cmd>Telescope git_commits<CR>", { desc = "See all git commits" })
+map("n", "<space>fgb", "<cmd>Telescope git_bcommits<CR>", { desc = "See buffer commits" })
+map("n", "<space>gs", "<cmd>Telescope git_status<CR>", { desc = "See git status" })
+map("n", "<space>st", "<cmd>Telescope git_stash<CR>", { desc = "See git stash" })
 
 -- Hop
 map("n", "<space>jw", "<cmd>HopWord<CR>", { desc = "Hop to word" })
@@ -80,13 +80,19 @@ map("n", "<leader>tf", "<cmd>tabfirst<cr>", { desc = "Go to first tab" })
 map("n", "<leader>tl", "<cmd>tablast<cr>", { desc = "Go to last tab" })
 
 -- Gitsigns
-map("n", "<leader>gba", "<cmd>Gitsigns blame<cr>", { desc = "Gitsigns blame all" })
-map("n", "<leader>gbl", "<cmd>Gitsigns blame_line<cr>", { desc = "Gitsigns blame line" })
+map("n", "<leader>gbl", "<cmd>Gitsigns blame<cr>", { desc = "Gitsigns blame all" })
+map("n", "<leader>gbll", "<cmd>Gitsigns blame_line<cr>", { desc = "Gitsigns blame line" })
 map("n", "<leader>gn", "<cmd>Gitsigns next_hunk<cr>", { desc = "Gitsigns next hunk" })
 map("n", "<leader>gp", "<cmd>Gitsigns prev_hunk<cr>", { desc = "Gitsigns prev hunk" })
 map("n", "<leader>gP", "<cmd>Gitsigns preview_hunk<cr>", { desc = "Gitsigns preview hunk" })
 map("n", "<leader>gH", "<cmd>Gitsigns reset_hunk<cr>", { desc = "Gitsigns reset hunk" })
-map("n", "<leader>gR", "<cmd>Gitsigns reset_buffer<cr>", { desc = "Gitsigns reset buffer" })
+-- map("n", "<leader>gr", "<cmd>Gitsigns reset_buffer<cr>", { desc = "Gitsigns reset buffer" })
+map("n", "<leader>gr", function()
+  local choice = vim.fn.confirm("Reset entire buffer?", "&Yes\n&No", 2)
+  if choice == 1 then
+    gs.reset_buffer()
+  end
+end, { desc = "Gitsigns reset buffer" })
 map("n", "<leader>gS", "<cmd>Gitsigns stage_buffer<cr>", { desc = "Gitsigns stage buffer" })
 map("n", "<leader>gU", "<cmd>Gitsigns reset_buffer_index<cr>", { desc = "Gitsigns unstage buffer" })
 map("n", "<leader>gD", "<cmd>Gitsigns diffthis<cr>", { desc = "Gitsigns diff buffer" })
@@ -118,8 +124,13 @@ map("n", "[c", function()
   end)
   return "<Ignore>"
 end, { expr = true })
+
+------------------
+---- Diffview ----
+------------------
+local dv = require "diffview.lib"
 map("n", "<leader>dv", function()
-  if next(require("diffview.lib").views) == nil then
+  if next(dv.views) == nil then
     vim.cmd "DiffviewOpen"
   else
     vim.cmd "DiffviewClose"
@@ -128,8 +139,7 @@ end, {
   desc = "Toggle Diffview window",
 })
 
-map("n", "<leader>dp", function()
-  local dv = require "diffview.lib"
+map("n", "<leader>dM", function()
   if next(dv.views) == nil then
     vim.cmd "DiffviewOpen origin/main...HEAD"
   else
@@ -144,3 +154,41 @@ map("v", "aP", "V$%", { desc = "Visual select: V + $ + %" })
 
 -- Toggle Claude Code
 map("n", "<leader>cc", "<cmd>ClaudeCode<CR>", { desc = "Toggle Claude Code" })
+
+-- Diffview
+map("n", "<leader>do", "<cmd>DiffviewOpen<cr>", { desc = "Repo diff" })
+map("n", "<leader>dc", "<cmd>DiffviewClose<cr>", { desc = "Diffview close" })
+
+local function get_default_branch_name()
+  local res = vim.system({ "git", "rev-parse", "--verify", "main" }, { capture_output = true }):wait()
+  return res.code == 0 and "main" or "master"
+end
+
+local function dv_toggle(cmd_or_fn)
+  if dv.get_current_view() then
+    vim.cmd.DiffviewClose()
+  else
+    local cmd = type(cmd_or_fn) == "function" and cmd_or_fn() or cmd_or_fn
+    vim.cmd(cmd)
+  end
+end
+
+-- mappings (examples)
+map("n", "<leader>dM", function()
+  dv_toggle(function()
+    return "DiffviewOpen origin/" .. get_default_branch_name() .. "...HEAD"
+  end)
+end, { desc = "Toggle Diffview vs default branch" })
+
+map("n", "<leader>df", function()
+  dv_toggle "DiffviewFileHistory %"
+end, { desc = "Toggle file history (current file)" })
+
+-- map("v", "<leader>dr", function()
+--   dv_toggle(function()
+--     return "DiffviewFileHistory --follow"
+--   end)
+-- end, { desc = "Toggle file history (default..HEAD)" })
+
+map("n", ",hf", "<cmd>DiffviewFileHistory --follow %<cr>", { desc = "File history" })
+map("v", "<leader>dl", "<Esc><Cmd>'<,'>DiffviewFileHistory --follow<CR>", { desc = "Range history" })
