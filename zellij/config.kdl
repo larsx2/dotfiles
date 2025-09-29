@@ -220,7 +220,7 @@ keybinds clear-defaults=true {
         bind "down" { MoveFocus "down"; SwitchToMode "normal"; }
         bind "up" { MoveFocus "up"; SwitchToMode "normal"; }
         bind "right" { MoveFocus "right"; SwitchToMode "normal"; }
-        bind "space" { NextSwapLayout; }
+        bind "space" { NextSwapLayout; SwitchToMode "normal"; }
         bind "," { SwitchToMode "renametab"; }
         bind "-" { NewPane "down"; SwitchToMode "normal"; }
         bind "H" { MovePane "left"; }
@@ -244,6 +244,7 @@ keybinds clear-defaults=true {
         bind "z" { ToggleFocusFullscreen; SwitchToMode "normal"; }
         bind "{" { MovePane "left"; }
         bind "}" { MovePane "right"; }
+        bind "X" { CloseTab; SwitchToMode "normal"; }
     }
 }
 
