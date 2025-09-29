@@ -23,7 +23,9 @@ map("n", "<space>jt", "<cmd>Telescope lsp_type_definitions<CR>", { desc = "Open 
 map("n", "<space>ji", "<cmd>Telescope lsp_implementations<CR>", { desc = "Open lsp implementations" })
 map("n", "<space>fbl", "<cmd>Telescope git_branches<CR>", { desc = "See all branches" })
 map("n", "<space>fgc", "<cmd>Telescope git_commits<CR>", { desc = "See all git commits" })
+map("n", "<space>ca", "<cmd>Telescope git_commits<CR>", { desc = "See all git commits" })
 map("n", "<space>fgb", "<cmd>Telescope git_bcommits<CR>", { desc = "See buffer commits" })
+map("n", "<space>cb", "<cmd>Telescope git_bcommits<CR>", { desc = "See buffer commits" })
 map("n", "<space>gs", "<cmd>Telescope git_status<CR>", { desc = "See git status" })
 map("n", "<space>st", "<cmd>Telescope git_stash<CR>", { desc = "See git stash" })
 
@@ -47,7 +49,7 @@ map(
   "<cmd>Trouble diagnostics toggle filter.buf=0 focus=true<cr>",
   { desc = "Buffer Diagnostics (Trouble)" }
 )
-map("n", "<leader>qs", "<cmd>Trouble symbols toggle focus=false<cr>", { desc = "Symbols (Trouble)" })
+map("n", "<leader>qs", "<cmd>Trouble symbols toggle focus=true win.size=0.4<cr>", { desc = "Symbols (Trouble)" })
 map(
   "n",
   "<leader>qd",
@@ -96,8 +98,11 @@ end, { desc = "Gitsigns reset buffer" })
 map("n", "<leader>gS", "<cmd>Gitsigns stage_buffer<cr>", { desc = "Gitsigns stage buffer" })
 map("n", "<leader>gU", "<cmd>Gitsigns reset_buffer_index<cr>", { desc = "Gitsigns unstage buffer" })
 map("n", "<leader>gD", "<cmd>Gitsigns diffthis<cr>", { desc = "Gitsigns diff buffer" })
-map("n", "<leader>gR", "<cmd>Gitsigns reset_base<cr>", { desc = "Gitsigns reset base to HEAD" })
-map("n", "<leader>gB", function()
+map("n", "<leader>gR", function()
+  gs.reset_base()
+  vim.notify "Gitsigns base reset to HEAD"
+end, { desc = "Gitsigns reset base to HEAD" })
+map("n", "<leader>gM", function()
   gs.change_base "origin/main"
   gs.toggle_deleted()
   gs.toggle_linehl()
@@ -129,7 +134,7 @@ end, { expr = true })
 ---- Diffview ----
 ------------------
 local dv = require "diffview.lib"
-map("n", "<leader>dv", function()
+map("n", "<leader>dd", function()
   if next(dv.views) == nil then
     vim.cmd "DiffviewOpen"
   else
