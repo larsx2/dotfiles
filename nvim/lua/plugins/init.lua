@@ -190,7 +190,8 @@ return {
     "nvim-tree/nvim-tree.lua",
     opts = function(_, opts)
       opts.filters.dotfiles = true -- hide dotfiles
-      return opts
+      opts.view = opts.view or {}
+      opts.view.width = "20%"
     end,
   },
 

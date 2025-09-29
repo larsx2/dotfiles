@@ -22,10 +22,8 @@ map("n", "<space>jr", "<cmd>Telescope lsp_references<CR>", { desc = "Open lsp re
 map("n", "<space>jt", "<cmd>Telescope lsp_type_definitions<CR>", { desc = "Open lsp type definitions" })
 map("n", "<space>ji", "<cmd>Telescope lsp_implementations<CR>", { desc = "Open lsp implementations" })
 map("n", "<space>fbl", "<cmd>Telescope git_branches<CR>", { desc = "See all branches" })
-map("n", "<space>fgc", "<cmd>Telescope git_commits<CR>", { desc = "See all git commits" })
-map("n", "<space>ca", "<cmd>Telescope git_commits<CR>", { desc = "See all git commits" })
-map("n", "<space>fgb", "<cmd>Telescope git_bcommits<CR>", { desc = "See buffer commits" })
-map("n", "<space>cb", "<cmd>Telescope git_bcommits<CR>", { desc = "See buffer commits" })
+map("n", "<space>gca", "<cmd>Telescope git_commits<CR>", { desc = "See all git commits" })
+map("n", "<space>gcb", "<cmd>Telescope git_bcommits<CR>", { desc = "See buffer commits" })
 map("n", "<space>gs", "<cmd>Telescope git_status<CR>", { desc = "See git status" })
 map("n", "<space>st", "<cmd>Telescope git_stash<CR>", { desc = "See git stash" })
 
@@ -72,6 +70,10 @@ map(
   { desc = "Open definition in vertical split" }
 )
 
+-- Git
+map("n", "<leader>gC", "<cmd>Git commit<cr>", { desc = "Gitsigns blame all" })
+map("n", "<leader>gD", "<cmd>Gvdiffsplit<cr>", { desc = "Git diff split" })
+
 -- Tabs
 map("n", "<leader>tn", "<cmd>tabnew<cr>", { desc = "Create new tab" })
 map("n", "<leader>td", "<cmd>tabclose<cr>", { desc = "Close current tab" })
@@ -82,7 +84,7 @@ map("n", "<leader>tf", "<cmd>tabfirst<cr>", { desc = "Go to first tab" })
 map("n", "<leader>tl", "<cmd>tablast<cr>", { desc = "Go to last tab" })
 
 -- Gitsigns
-map("n", "<leader>gbl", "<cmd>Gitsigns blame<cr>", { desc = "Gitsigns blame all" })
+map("n", "<leader>gbla", "<cmd>Gitsigns blame<cr>", { desc = "Gitsigns blame all" })
 map("n", "<leader>gbll", "<cmd>Gitsigns blame_line<cr>", { desc = "Gitsigns blame line" })
 map("n", "<leader>gn", "<cmd>Gitsigns next_hunk<cr>", { desc = "Gitsigns next hunk" })
 map("n", "<leader>gp", "<cmd>Gitsigns prev_hunk<cr>", { desc = "Gitsigns prev hunk" })
@@ -97,7 +99,6 @@ map("n", "<leader>gr", function()
 end, { desc = "Gitsigns reset buffer" })
 map("n", "<leader>gS", "<cmd>Gitsigns stage_buffer<cr>", { desc = "Gitsigns stage buffer" })
 map("n", "<leader>gU", "<cmd>Gitsigns reset_buffer_index<cr>", { desc = "Gitsigns unstage buffer" })
-map("n", "<leader>gD", "<cmd>Gitsigns diffthis<cr>", { desc = "Gitsigns diff buffer" })
 map("n", "<leader>gR", function()
   gs.reset_base()
   vim.notify "Gitsigns base reset to HEAD"
