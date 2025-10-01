@@ -1,0 +1,41 @@
+[user]
+  name = Eduardo Urias
+  email = edw.urias@gmail.com
+
+[pull]
+  rebase = true
+
+[init]
+  defaultBranch = main
+
+[fetch]
+  prune = true
+
+[push]
+  autoSetupRemote = true
+  default = current
+
+[credential]
+  helper = store
+
+[core]
+  pager = delta
+  editor = nvim
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  features = decorations
+  light = false
+  tabs = 2
+  line-numbers = true
+  navigate = true
+  hyperlinks = true
+  side-by-side = true
+
+[merge]
+  conflictStyle = zdiff3
+
+[rerere]
+  enabled = true
