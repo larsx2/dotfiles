@@ -26,7 +26,7 @@ gwpr() {
     local folder=$(gum input --placeholder "Folder name" --value="$default_folder")
     [[ -z $folder ]] && return
     
-    local full_path="../$folder"
+    local full_path="$HOME/.worktrees/$folder"
     
     if gum confirm "Create worktree at $full_path for PR #${pr_number}?"; then
         git fetch origin "pull/${pr_number}/head:pr-${pr_number}" && \
@@ -38,17 +38,26 @@ gwpr() {
 gwapr() {
     local pr=$(
         gh pr list --limit 100 --json number,title,headRefName,author \
-            --jq '.[] | "#\(.number) - \(.title) [\(.headRefName)] (\(.author.login))"' |
-        gum filter --placeholder "Filter PRs..." --fuzzy=false
+            --jq '.[] | "\(.number)|\(.title)|\(.headRefName)|\(.author.login)"' |
+        awk -F'|' '{
+            # Cyan for PR number, yellow for branch, default for title and author
+            printf "\033[36m#%s\033[0m %s \033[33m[%s]\033[0m (%s)\n", $1, $2, $3, $4
+        }' |
+        fzf --ansi --header="Select PR" --reverse
     )
     
     [[ -z $pr ]] && return
     
+    # Strip ANSI codes for parsing
+    local clean=$(echo "$pr" | sed 's/\x1b\[[0-9;]*m//g')
+    
     # Extract PR number
-    local pr_number=${${pr%%' '*}#'#'}
+    local pr_number=${clean#\#}
+    pr_number=${pr_number%% *}
     
     # Extract branch name from between [ and ]
-    local pr_branch=${${pr#*\[}%%\]*}
+    local pr_branch=${clean#*\[}
+    pr_branch=${pr_branch%%\]*}
     
     # Replace slashes and spaces with dashes for folder name
     local safe_branch=${pr_branch//[\/\ ]/-}
@@ -57,13 +66,23 @@ gwapr() {
     local folder=$(gum input --placeholder "Folder name" --value="$default_folder")
     [[ -z $folder ]] && return
     
-    local full_path="../$folder"
+    local full_path="$HOME/.worktrees/$folder"
+    
+    # Ask whether to sync to existing branch or create new one
+    local branch_choice=$(gum choose "Use existing branch (${pr_branch})" "Create new branch (pr-${pr_number})")
     
     if gum confirm "Create worktree at $full_path for PR #${pr_number}?"; then
-        # Fetch PR and create worktree in one go
-        git fetch origin "pull/${pr_number}/head:pr-${pr_number}" && \
-        git worktree add "$full_path" "pr-${pr_number}" && \
-        cd "$full_path"
+        if [[ $branch_choice == "Use existing branch"* ]]; then
+            # Fetch the branch and set up tracking
+            git fetch origin "${pr_branch}" && \
+            git worktree add -b "${pr_branch}" --track "$full_path" "origin/${pr_branch}" && \
+            cd "$full_path"
+        else
+            # Create a new local branch based on the PR
+            git fetch origin "pull/${pr_number}/head:pr-${pr_number}" && \
+            git worktree add "$full_path" "pr-${pr_number}" && \
+            cd "$full_path"
+        fi
     fi
 }
 
@@ -172,7 +191,7 @@ gwa() {
     [[ -z $folder ]] && folder="$folder_default"
     folder="${folder//\//-}"
     
-    local full_path="../$folder"
+    local full_path="$HOME/.worktrees/$folder"
     
     # Check if path already exists
     if [[ -e $full_path ]]; then
