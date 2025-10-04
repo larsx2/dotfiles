@@ -167,3 +167,5 @@ export AWS_DEFAULT_OUTPUT=yaml-stream
 [ -s ~/.config/zsh/git-aliases.zsh ] && source ~/.config/zsh/git-aliases.zsh
 
 [ -s ~/.config/zsh/worktree-aliases.zsh ] && source ~/.config/zsh/worktree-aliases.zsh
+
+[ -s ~/.config/zsh/docker-aliases.zsh ] && source ~/.config/zsh/docker-aliases.zsh
