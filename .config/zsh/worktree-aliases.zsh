@@ -73,10 +73,20 @@ gwapr() {
     
     if gum confirm "Create worktree at $full_path for PR #${pr_number}?"; then
         if [[ $branch_choice == "Use existing branch"* ]]; then
-            # Fetch the branch and set up tracking
-            git fetch origin "${pr_branch}" && \
-            git worktree add -b "${pr_branch}" --track "$full_path" "origin/${pr_branch}" && \
-            cd "$full_path"
+            # Fetch the remote branch
+            git fetch origin "${pr_branch}"
+            
+            # Create or reuse local branch, then add worktree with --force to detach if needed
+            if ! git show-ref --verify --quiet "refs/heads/${pr_branch}"; then
+                # Branch doesn't exist locally, create it
+                git worktree add "$full_path" -b "${pr_branch}" --track "origin/${pr_branch}" && \
+                cd "$full_path"
+            else
+                # Branch exists locally, force checkout (detaches from other worktrees if needed)
+                git worktree add "$full_path" "${pr_branch}" 2>/dev/null || \
+                git worktree add --force "$full_path" "${pr_branch}" && \
+                cd "$full_path"
+            fi
         else
             # Create a new local branch based on the PR
             git fetch origin "pull/${pr_number}/head:pr-${pr_number}" && \
@@ -113,29 +123,71 @@ gwrm() {
     local selected=$(git worktree list | awk 'NR > 1 {
         path = $1
         gsub(/.*\//, "", path)
-        branch = $NF
-        gsub(/[\[\]]/, "", branch)
-        printf "\033[36m[%s]\033[0m → %s\n", branch, path
+        
+        # Reset variables for each line
+        branch = ""
+        status = ""
+        
+        # Check if last field is "prunable"
+        if ($NF == "prunable") {
+            status = " \033[33m(prunable)\033[0m"
+            # Branch is second-to-last field
+            branch = $(NF-1)
+        } else {
+            # Branch is last field
+            branch = $NF
+        }
+        
+        # Remove brackets
+        gsub(/[\[\]()]/, "", branch)
+        
+        if (branch == "") branch = "unknown"
+        
+        printf "\033[36m[%s]\033[0m → %s%s\n", branch, path, status
     }' | fzf --ansi --header="Select worktree to remove" --reverse)
     
     [[ -z $selected ]] && return
     
-    # Extract branch name from selection
+    # Extract branch name and check if prunable
     local clean=$(echo "$selected" | sed 's/\x1b\[[0-9;]*m//g')
     local branch=${clean#\[}
+    branch=${branch%% *}
     branch=${branch%%\]*}
     
-    # Get full path for this branch
-    local worktree_path=$(git worktree list | awk -v b="$branch" '$NF == "["b"]" {print $1}')
+    local is_prunable="no"
+    if echo "$clean" | grep -q "(prunable)"; then
+        is_prunable="yes"
+    fi
     
-    # Get main worktree path before removing anything
-    local main_path=$(git worktree list | grep "\[main\]" | cut -d " " -f1)
+    # Get full path for this branch
+    local worktree_path=$(git worktree list | grep "\[$branch\]" | awk '{print $1}')
+    
+    # Get primary worktree
+    local main_path=$(git worktree list | head -1 | awk '{print $1}')
+    
+    if [[ $is_prunable == "yes" ]]; then
+        if gum confirm "Prune worktree tracking for branch $branch?"; then
+            cd "$main_path"
+            git worktree prune
+            gum style --foreground 212 "✓ Pruned worktree tracking!"
+            gum style --foreground 33 "↩ Returned to main worktree"
+            
+            if [[ $branch != "main" && $branch != "master" && $branch != "unknown" ]]; then
+                if git show-ref --verify --quiet "refs/heads/${branch}"; then
+                    if gum confirm "Also delete branch $branch?"; then
+                        git branch -D "$branch"
+                        gum style --foreground 212 "✓ Branch deleted!"
+                    fi
+                fi
+            fi
+        fi
+        return
+    fi
     
     if gum confirm "Remove worktree for branch $branch?"; then
         if ! git worktree remove "$worktree_path" 2>/dev/null; then
             gum style --foreground 214 "⚠ Worktree has uncommitted changes!"
             if gum confirm "Force remove worktree (you'll lose uncommitted changes)?"; then
-                # CD to main BEFORE force removing
                 cd "$main_path"
                 git worktree remove --force "$worktree_path"
                 gum style --foreground 212 "✓ Worktree force removed!"
@@ -145,17 +197,17 @@ gwrm() {
                 return
             fi
         else
-            # CD to main BEFORE showing success (if we were in the removed worktree)
             cd "$main_path"
             gum style --foreground 212 "✓ Worktree removed!"
             gum style --foreground 33 "↩ Returned to main worktree"
         fi
         
-        # Ask to delete the branch (skip if it's main or master)
         if [[ $branch != "main" && $branch != "master" ]]; then
-            if gum confirm "Also delete branch $branch?"; then
-                git branch -D "$branch"
-                gum style --foreground 212 "✓ Branch deleted!"
+            if git show-ref --verify --quiet "refs/heads/${branch}"; then
+                if gum confirm "Also delete branch $branch?"; then
+                    git branch -D "$branch"
+                    gum style --foreground 212 "✓ Branch deleted!"
+                fi
             fi
         fi
     else
