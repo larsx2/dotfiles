@@ -270,3 +270,37 @@ gwa() {
         fi
     fi
 }
+
+gwn() {
+    local worktrees=(${(f)"$(git worktree list | awk '{print $1}')"})
+    local current=$(pwd)
+    local len=${#worktrees}
+    
+    for i in {1..$len}; do
+        if [[ "${worktrees[$i]}" == "$current" ]]; then
+            local next=$((i + 1))
+            [[ $next -gt $len ]] && next=1
+            cd "${worktrees[$next]}"
+            return
+        fi
+    done
+    
+    cd "${worktrees[1]}"
+}
+
+gwp() {
+    local worktrees=(${(f)"$(git worktree list | awk '{print $1}')"})
+    local current=$(pwd)
+    local len=${#worktrees}
+    
+    for i in {1..$len}; do
+        if [[ "${worktrees[$i]}" == "$current" ]]; then
+            local prev=$((i - 1))
+            [[ $prev -lt 1 ]] && prev=$len
+            cd "${worktrees[$prev]}"
+            return
+        fi
+    done
+    
+    cd "${worktrees[$len]}"
+}
