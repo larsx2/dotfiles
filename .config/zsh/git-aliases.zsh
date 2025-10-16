@@ -12,6 +12,28 @@ alias gdprf='git diff --name-only origin/main...HEAD \
       --preview "git --no-pager diff --color=always origin/main...HEAD -- {}" \
   | xargs -r -o nvim'
 
+gprls() {
+    local pr=$(
+        gh pr list --limit 100 --json number,title,headRefName,author \
+            --jq '.[] | "\(.number)|\(.title)|\(.headRefName)|\(.author.login)"' |
+        awk -F'|' '{
+            printf "\033[36m#%s\033[0m %s \033[33m[%s]\033[0m (\033[90m%s\033[0m)\n", $1, $2, $3, $4
+        }' |
+        fzf --ansi --header="Select PR" --reverse --preview-window=right:60%
+    )
+    
+    [[ -z $pr ]] && return
+    
+    # Strip ANSI codes and extract PR number
+    local clean=$(echo "$pr" | sed 's/\x1b\[[0-9;]*m//g')
+    local pr_number=$(echo "$clean" | sed 's/^#\([0-9]*\).*/\1/')
+    
+    # Get branch name from PR number
+    local pr_branch=$(gh pr view "$pr_number" --json headRefName --jq '.headRefName')
+    
+    git checkout "$pr_branch"
+}
+
 # git status file pick with preview (porcelain safe)
 alias gstfp="git status --porcelain \
   | cut -c4- \
