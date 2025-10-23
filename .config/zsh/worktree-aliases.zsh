@@ -1,40 +1,3 @@
-gwpr() {
-    local pr=$(
-        gh pr list --limit 100 --json number,title,headRefName,author --jq '.[]' |
-        while IFS= read -r line; do
-            local num=$(echo "$line" | jq -r '.number')
-            local title=$(echo "$line" | jq -r '.title')
-            local branch=$(echo "$line" | jq -r '.headRefName')
-            local author=$(echo "$line" | jq -r '.author.login')
-            
-            printf "\033[33m#%-5s\033[0m %-50s \033[36m[%s]\033[0m \033[90m(%s)\033[0m\n" \
-                "$num" "$title" "$branch" "$author"
-        done | fzf --ansi --header "Select PR" --reverse
-    )
-    
-    [[ -z $pr ]] && return
-    
-    # Strip colors and extract
-    local pr_clean=$(echo "$pr" | sed 's/\x1b\[[0-9;]*m//g')
-    local pr_number=${${pr_clean%%' '*}#'#'}
-    local pr_branch=${${pr_clean#*\[}%%\]*}
-    
-    # Replace slashes and spaces with dashes
-    local safe_branch=${pr_branch//[\/\ ]/-}
-    local default_folder="pr-${pr_number}-${safe_branch}"
-    
-    local folder=$(gum input --placeholder "Folder name" --value="$default_folder")
-    [[ -z $folder ]] && return
-    
-    local full_path="$HOME/.worktrees/$folder"
-    
-    if gum confirm "Create worktree at $full_path for PR #${pr_number}?"; then
-        git fetch origin "pull/${pr_number}/head:pr-${pr_number}" && \
-        git worktree add "$full_path" "pr-${pr_number}" && \
-        cd "$full_path"
-    fi
-}
-
 gwapr() {
     local pr=$(
         gh pr list --limit 100 --json number,title,headRefName,author \
@@ -95,6 +58,7 @@ gwapr() {
         fi
     fi
 }
+alias gwpr=gwapr
 
 gwls() {
     local selected=$(git worktree list | awk '{
