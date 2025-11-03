@@ -102,6 +102,12 @@ alias nvim-init="nvim ~/.config/nvim/lua/plugins/init.lua"
 alias nvim-mappings="nvim ~/.config/nvim/lua/mappings.lua"
 alias view="nvim -R"
 alias z="zellij"
+alias zdf="z d -f"
+alias zl="z ls"
+alias zls="z ls"
+alias za="z a"
+alias zn="z -n default -s"
+alias zpwd="z -n default -s $(basename `pwd`)"
 
 # https://github.com/zellij-org/zellij/issues/1933#issuecomment-2274464004
 autoload -U +X compinit && compinit
