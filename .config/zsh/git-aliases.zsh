@@ -9,7 +9,7 @@ alias gb="git branch --sort=-committerdate --format='%(committerdate:format:%Y %
 alias gdpr="git diff origin/main...HEAD"
 alias gdprf='git diff --name-only origin/main...HEAD \
   | fzf -m --ansi \
-      --preview "git --no-pager diff --color=always origin/main...HEAD -- {}" \
+      --preview '\''sh -c "git --no-pager diff --color=always origin/main...HEAD -- \"\$1\"" -- {}'\'' \
   | xargs -r -o nvim'
 
 gprls() {

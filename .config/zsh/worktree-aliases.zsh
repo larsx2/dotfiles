@@ -29,7 +29,7 @@ gwapr() {
     local folder=$(gum input --placeholder "Folder name" --value="$default_folder")
     [[ -z $folder ]] && return
     
-    local full_path="$HOME/.worktrees/$folder"
+    local full_path="$PWD/.worktrees/$folder"
     
     # Ask whether to sync to existing branch or create new one
     local branch_choice=$(gum choose "Use existing branch (${pr_branch})" "Create new branch (pr-${pr_number})")
@@ -207,7 +207,7 @@ gwa() {
     [[ -z $folder ]] && folder="$folder_default"
     folder="${folder//\//-}"
     
-    local full_path="$HOME/.worktrees/$folder"
+    local full_path="$PWD/.worktrees/$folder"
     
     # Check if path already exists
     if [[ -e $full_path ]]; then
