@@ -89,3 +89,5 @@ alias gcof="git branch --sort=-committerdate --format='%(committerdate:iso-stric
   | cut -d' ' -f2 \
   | xargs git checkout"
 
+gdf() { git diff -- "$(git diff --name-only HEAD | fzf -1 -0 -q "$1")"; }
+gdfc() { git diff --cached -- "$(git diff --name-only --cached | fzf -1 -0 -q "$1")"; }
