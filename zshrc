@@ -108,6 +108,7 @@ alias zls="z ls"
 alias za="z a"
 alias zn="z -n default -s"
 alias zpwd="z -n default -s $(basename `pwd`)"
+alias znuke="z delete-all-sessions"
 
 # https://github.com/zellij-org/zellij/issues/1933#issuecomment-2274464004
 autoload -U +X compinit && compinit
