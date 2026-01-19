@@ -133,6 +133,53 @@ export NVM_DIR="$HOME/.nvm"
 ZSH_Z_PATH=~/Code/zsh-z/zsh-z.plugin.zsh
 [ -f $ZSH_Z_PATH ] && source $ZSH_Z_PATH
 
+# General aliases
+alias zshrc="nvim ~/.zshrc"
+alias nvim-init="nvim ~/.config/nvim/lua/plugins/init.lua"
+alias nvim-config="cd ~/.config/nvim && nvim init.lua"
+alias nvim-mappings="nvim ~/.config/nvim/lua/mappings.lua"
+alias view="nvim -R"
+ alias zstart="zellij setup --generate-auto-start zsh"
+alias z="zellij"
+alias zdf="z d -f"
+alias zl="z ls"
+alias zls="z ls"
+alias za="z a"
+alias zn="z -n default -s"
+alias zpwd="z -n default -s $(basename `pwd`)"
+alias znuke="z delete-all-sessions"
+alias zs="z -s"
+  
+function zlz() {
+  local sessions
+  sessions=$(zellij list-sessions 2>/dev/null)
+  
+  if [ -z "$sessions" ]; then
+    echo "No Zellij sessions found"
+    return 1
+  fi
+  
+  # If inside Zellij, just show the list and exit
+  if [ -n "$ZELLIJ" ]; then
+    echo "Cannot switch sessions from inside Zellij. Available sessions:"
+    echo "$sessions"
+    return 1
+  fi
+  
+  local selected
+  selected=$(echo "$sessions" | fzf --ansi --no-preview --height=~50% --layout=reverse)
+  
+  if [ -z "$selected" ]; then
+    return 0
+  fi
+  
+  local session_name
+  session_name=$(echo "$selected" | awk '{print $1}')
+  
+  zellij attach "$session_name"
+}
+
+
 #####################
 ######## AWS ########
 #####################
