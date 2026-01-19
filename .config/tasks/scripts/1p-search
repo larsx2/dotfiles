@@ -1,0 +1,30 @@
+#!/bin/bash
+# Usage: 1p-search <field> [query]
+# field: password, username, otp
+# Searches 1password items with fzf and copies selected field to clipboard
+
+field="${1:-password}"
+query="${2:-}"
+
+item=$(op item list --format json | jq -r '.[] | "\(.title)\t(\(.vault.name))\t\(.id)"' | \
+  column -t -s$'\t' | \
+  fzf --query="$query" --exact --height=~50% --layout=reverse)
+
+[ -z "$item" ] && exit 0
+
+id=$(echo "$item" | awk '{print $NF}')
+name=$(echo "$item" | awk '{$NF=""; sub(/\([^)]+\) *$/, ""); sub(/ +$/, ""); print}')
+
+case "$field" in
+  otp)
+    op item get "$id" --otp | pbcopy
+    ;;
+  username)
+    op item get "$id" --fields username | pbcopy
+    ;;
+  *)
+    op item get "$id" --fields password --reveal | pbcopy
+    ;;
+esac
+
+echo "Copied $field for: $name"
