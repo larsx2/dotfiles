@@ -8,6 +8,11 @@ local gs = require "gitsigns"
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 
+-- Buffers
+vim.keymap.del("n", "<leader>b")
+map("n", "<leader>bn", "<cmd>enew<cr>", { desc = "New buffer" })
+map("n", "<leader>bo", "<cmd>%bd|e#|bd#<cr>", { desc = "Close all buffers except current" })
+
 map("n", "<C-h>", "<C-w>h", { desc = "Window left" })
 map("n", "<C-l>", "<C-w>l", { desc = "Window right" })
 map("n", "<C-j>", "<C-w>j", { desc = "Window down" })
@@ -24,8 +29,8 @@ map("n", "<space>ji", "<cmd>Telescope lsp_implementations<CR>", { desc = "Open l
 map("n", "<space>fbl", "<cmd>Telescope git_branches<CR>", { desc = "See all branches" })
 map("n", "<space>gca", "<cmd>Telescope git_commits<CR>", { desc = "See all git commits" })
 map("n", "<space>gcb", "<cmd>Telescope git_bcommits<CR>", { desc = "See buffer commits" })
-map("n", "<space>gs", "<cmd>Telescope git_status<CR>", { desc = "See git status" })
-map("n", "<space>st", "<cmd>Telescope git_stash<CR>", { desc = "See git stash" })
+map("n", "<space>fgs", "<cmd>Telescope git_status<CR>", { desc = "See git status" })
+map("n", "<space>fst", "<cmd>Telescope git_stash<CR>", { desc = "See git stash" })
 
 -- Hop
 map("n", "<space>jw", "<cmd>HopWord<CR>", { desc = "Hop to word" })
@@ -198,3 +203,17 @@ end, { desc = "Toggle file history (current file)" })
 
 map("n", ",hf", "<cmd>DiffviewFileHistory --follow %<cr>", { desc = "File history" })
 map("v", "<leader>dl", "<Esc><Cmd>'<,'>DiffviewFileHistory --follow<CR>", { desc = "Range history" })
+
+-- grep word under cursor
+map("n", "<leader>fW", function()
+  require("telescope.builtin").live_grep {
+    default_text = vim.fn.expand "<cword>",
+  }
+end, { desc = "Live grep word under cursor" })
+
+-- grep word under cursor in the current buffer
+map("n", "<leader>fZ", function()
+  require("telescope.builtin").current_buffer_fuzzy_find {
+    default_text = vim.fn.expand "<cword>",
+  }
+end, { desc = "Find word under cursor (current buffer)" })
