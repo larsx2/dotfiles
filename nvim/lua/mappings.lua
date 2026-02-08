@@ -104,15 +104,27 @@ map("n", "<leader>gr", function()
 end, { desc = "Gitsigns reset buffer" })
 map("n", "<leader>gS", "<cmd>Gitsigns stage_buffer<cr>", { desc = "Gitsigns stage buffer" })
 map("n", "<leader>gU", "<cmd>Gitsigns reset_buffer_index<cr>", { desc = "Gitsigns unstage buffer" })
+local gm_review_active = false
 map("n", "<leader>gR", function()
   gs.reset_base()
+  if gm_review_active then
+    gs.toggle_deleted()
+    gs.toggle_linehl()
+    gs.toggle_numhl()
+    gm_review_active = false
+  end
   vim.notify "Gitsigns base reset to HEAD"
 end, { desc = "Gitsigns reset base to HEAD" })
 map("n", "<leader>gM", function()
+  if gm_review_active then
+    vim.notify "Review mode already active — use <leader>gR to reset"
+    return
+  end
   gs.change_base "origin/main"
   gs.toggle_deleted()
   gs.toggle_linehl()
   gs.toggle_numhl()
+  gm_review_active = true
   vim.notify "Gitsigns base set to origin/main"
 end, { desc = "Gitsigns diff vs origin/main with line highlights" })
 
