@@ -22,7 +22,6 @@ alias dversion="docker compose version"
 alias dreload="docker compose restart"
 alias dkill="docker compose kill"
 alias dstart="docker compose start"
-alias dstop="docker compose stop"
 
 dnuke() {
   if [[ -z $(docker ps -aq) ]]; then
