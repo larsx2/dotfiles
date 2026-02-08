@@ -72,7 +72,7 @@ alias gdfp="git diff --cached --name-only \
   | xargs -r -o nvim"
 
 # git unstaged file pick with preview
-alias gdcap="git status --porcelain | egrep '^ [^ ]|^\?\?' | cut -c4- \
+alias gdcap="git status --porcelain | grep -E '^ [^ ]|^\?\?' | cut -c4- \
   | fzf -m --preview 'git diff --color=always -- {}' \
   | xargs -r nvim"
 
