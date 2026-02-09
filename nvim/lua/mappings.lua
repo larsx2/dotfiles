@@ -93,24 +93,26 @@ map("n", "<leader>gU", "<cmd>Gitsigns reset_buffer_index<cr>", { desc = "Gitsign
 map("n", "<leader>gR", function()
   local gs = require("gitsigns")
   gs.reset_base()
-  local cfg = require("gitsigns.config").config
-  if cfg.show_deleted then gs.toggle_deleted() end
-  if cfg.linehl then gs.toggle_linehl() end
-  if cfg.numhl then gs.toggle_numhl() end
+  if vim.g.gitsigns_review_active then
+    gs.toggle_deleted()
+    gs.toggle_linehl()
+    gs.toggle_numhl()
+    vim.g.gitsigns_review_active = false
+  end
   vim.notify("Gitsigns base reset to HEAD")
 end, { desc = "Gitsigns reset base to HEAD" })
 
 map("n", "<leader>gM", function()
-  local gs = require("gitsigns")
-  local cfg = require("gitsigns.config").config
-  if cfg.show_deleted then
+  if vim.g.gitsigns_review_active then
     vim.notify("Review mode already active — use <leader>gR to reset")
     return
   end
+  local gs = require("gitsigns")
   gs.change_base("origin/main")
   gs.toggle_deleted()
   gs.toggle_linehl()
   gs.toggle_numhl()
+  vim.g.gitsigns_review_active = true
   vim.notify("Gitsigns base set to origin/main")
 end, { desc = "Gitsigns diff vs origin/main with line highlights" })
 
