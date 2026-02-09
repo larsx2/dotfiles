@@ -145,7 +145,6 @@ return {
       require("microscope.module").setup {
         keymaps = {
           fold = "zr",
-          grep = "<leader>fW",
         },
       }
     end,
