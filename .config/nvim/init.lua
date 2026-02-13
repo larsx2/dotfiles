@@ -1,6 +1,15 @@
 vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46/"
 vim.g.mapleader = " "
 
+-- TODO: REMOVE LATER
+local orig_deprecate = vim.deprecate
+vim.deprecate = function(...)
+  local args = { ... }
+  if args[1] and args[1]:match "lspconfig" then
+    return
+  end
+  return orig_deprecate(...)
+end
 -- bootstrap lazy and all plugins
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 
