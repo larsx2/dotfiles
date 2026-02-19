@@ -96,24 +96,9 @@ source $ZSH/oh-my-zsh.sh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
-# Example aliases
-alias zshrc="nvim ~/.zshrc"
-alias nvim-init="nvim ~/.config/nvim/lua/plugins/init.lua"
-alias nvim-mappings="nvim ~/.config/nvim/lua/mappings.lua"
-alias view="nvim -R"
-alias z="zellij"
-alias zdf="z d -f"
-alias zl="z ls"
-alias zls="z ls"
-alias za="z a"
-alias zn="z -n default -s"
-alias zpwd="z -n default -s $(basename `pwd`)"
-alias znuke="z delete-all-sessions"
-
 # https://github.com/zellij-org/zellij/issues/1933#issuecomment-2274464004
 autoload -U +X compinit && compinit
 . <( zellij setup --generate-completion zsh | sed -Ee 's/^(_(zellij) ).*/compdef \1\2/' )
-# alias ohmyzsh="mate ~/.oh-my-zsh"
 
 if [ "$(uname -m)" = "arm64" ]; then
   export DOCKER_DEFAULT_PLATFORM=linux/arm64
@@ -139,17 +124,17 @@ alias nvim-init="nvim ~/.config/nvim/lua/plugins/init.lua"
 alias nvim-config="cd ~/.config/nvim && nvim init.lua"
 alias nvim-mappings="nvim ~/.config/nvim/lua/mappings.lua"
 alias view="nvim -R"
- alias zstart="zellij setup --generate-auto-start zsh"
+alias zstart="zellij setup --generate-auto-start zsh"
 alias z="zellij"
 alias zdf="z d -f"
 alias zl="z ls"
 alias zls="z ls"
 alias za="z a"
 alias zn="z -n default -s"
-alias zpwd="z -n default -s $(basename `pwd`)"
+alias zpwd="z -n default -s $(basename $(pwd))"
 alias znuke="z delete-all-sessions"
 alias zs="z -s"
-  
+
 function zlz() {
   local sessions
   sessions=$(zellij list-sessions 2>/dev/null)
