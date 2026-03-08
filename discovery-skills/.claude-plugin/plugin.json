@@ -1,5 +1,5 @@
 {
   "name": "discovery-skills",
-  "description": "Product discovery skills based on Teresa Torres (Continuous Discovery Habits), Marty Cagan (Inspired/Empowered/Transformed), and Google Ventures Design Sprint. Helps product teams validate the right thing to build through structured experimentation, customer interviews, opportunity mapping, and assumption testing.",
-  "version": "1.0.0"
+  "description": "Product discovery skills for product managers, founders, and lean teams. Based on Teresa Torres (Continuous Discovery Habits), Marty Cagan (Inspired/Empowered/Transformed), and Jake Knapp (Sprint). Covers the full discovery loop: routing to the right activity, customer interviewing, opportunity mapping, assumption testing, experiment design, and discovery coaching. Helps teams and solo founders figure out what's worth building through evidence-based discovery, not guesswork.",
+  "version": "2.0.0"
 }

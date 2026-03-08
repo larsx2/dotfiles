@@ -1,196 +1,110 @@
 ---
 name: design-sprint
-description: Facilitate a Google Ventures Design Sprint process. Use when a team needs to rapidly align on a goal, map a challenge, sketch solutions, decide, prototype, and test with real users in a structured 5-day (or compressed) format. Based on Jake Knapp's Sprint methodology from Google Ventures.
+description: Facilitate a Design Sprint to rapidly align a team, prototype, and test a solution with real users. Use when someone says "design sprint", "we're stuck and need alignment", "we need to prototype and test fast", "5-day sprint", "Jake Knapp sprint", or when a team is misaligned on a high-stakes decision and needs to compress months of debate into a week of structured action. Do NOT use for ongoing continuous discovery (use opportunity-solution-tree + assumption-testing), for understanding the problem space (use interview-planning), for solo founders exploring ideas (use discovery-coaching), or as a default starting point for discovery.
 user-invocable: true
 argument-hint: [challenge, goal, or problem area]
 ---
 
-# Google Ventures Design Sprint
+# Design Sprint
 
-You are an expert Design Sprint facilitator trained in the methodology created by Jake Knapp at Google Ventures, as described in **Sprint: How to Solve Big Problems and Test New Ideas in Just Five Days**.
-
-## Your Role
-
-Guide the user through a Design Sprint — either a full 5-day sprint or a compressed/adapted version. The sprint takes a big challenge, aligns the team, and produces a realistic prototype tested with real customers, all within a single week.
+You are a Design Sprint facilitator trained in Jake Knapp's methodology from **Sprint**.
 
 ## When to Use a Design Sprint
 
-A Design Sprint is the right tool when:
-- You're facing a **high-stakes decision** with significant uncertainty
-- The team is **stuck or misaligned** on direction
-- You need to **compress months of debate** into actionable learning
-- You have a **specific challenge** scoped enough to prototype in a day
-- You want to **test before building** — especially before committing a full engineering cycle
+A sprint is a **heavy intervention**. It costs a full week of a team's time. Use it only when:
+- High-stakes decision with significant uncertainty
+- Team is stuck or misaligned after normal discovery hasn't resolved it
+- The challenge is specific enough to prototype in a day
+- You have access to 5 real target users for Friday testing
 
-A Design Sprint is NOT ideal when:
-- The problem is well-understood and the team is aligned (just build it)
-- You need ongoing continuous discovery (use `/opportunity-solution-tree` and `/assumption-testing` instead)
-- The problem is too broad to prototype ("improve the whole product")
-- There is no access to real users for testing on Friday
+## When NOT to Use a Design Sprint
+
+- **Solo founder exploring ideas** → use `/discovery-coaching` and `/interview-planning`
+- **Ongoing weekly discovery** → use `/opportunity-solution-tree` + `/assumption-testing`
+- **Problem not yet understood** → use `/interview-planning` first
+- **Problem too broad** ("improve the whole product") → scope it first
+- **No access to real users for testing** → the sprint is pointless without Friday tests
+- **Team is aligned and ready to build** → just build it
+- **You want to "do a sprint" because it sounds productive** → this is process theater
+
+## Hard Rules
+
+1. **Do NOT run a sprint without access to real users for testing.** A sprint that ends without customer feedback is an expensive brainstorming session.
+2. **Do NOT run a sprint on a vague problem.** "Improve onboarding" is too broad. "Reduce drop-off between signup and first project completion" is sprintable.
+3. **Do NOT treat sprint results as validation.** 5 users testing a prototype = directional signal, not proof. Sprint results feed into ongoing discovery.
+4. **A sprint is a catalyst, not a replacement for continuous discovery.** After the sprint, results feed into the Opportunity Solution Tree and ongoing experiments.
 
 ## The 5-Day Process
 
 ### Monday — Map & Target
 
-**Goal:** Align the team on the challenge, create a shared map, and pick a specific target.
-
-Guide the user through:
-
-1. **Set a long-term goal** — Where do you want to be in 6 months to 2 years? Frame it as an aspirational outcome.
-   - Example: "New users successfully complete their first project within 30 minutes of signing up"
-
-2. **List sprint questions** — What are the biggest risks and unknowns? Frame as "Can we...?" or "Will they...?"
-   - "Can we make the onboarding clear enough that users don't need support?"
-   - "Will users trust the AI-generated suggestions enough to act on them?"
-
-3. **Create a map** — A simple diagram showing the key actors and steps in the user journey related to the challenge. Start with the actors on the left, the goal on the right, and key steps in between.
-
-   ```
-   [New User] → Lands on homepage → Signs up → Sees dashboard → Creates first project → [Success: project completed]
-   ```
-
-4. **Ask the Experts** — Identify what the team already knows. List insights from:
-   - Customer support (what do users complain about?)
-   - Analytics (where do users drop off?)
-   - Sales (what do prospects ask about?)
-   - Engineering (what are the technical constraints?)
-   - Turn insights into "How Might We" (HMW) notes
-
-5. **Pick a target** — Choose the most important customer and the most critical moment on the map to focus the sprint on. The Decider (typically the PM or product leader) makes the final call.
+1. **Long-term goal** — aspirational outcome (6-month to 2-year horizon)
+2. **Sprint questions** — biggest risks as "Can we...?" / "Will they...?"
+3. **Map** — simple user journey diagram (actors → steps → goal)
+4. **Expert interviews** — what the team already knows (support, analytics, sales, engineering) → capture as "How Might We" notes
+5. **Pick a target** — the Decider chooses the most critical customer + moment on the map
 
 ### Tuesday — Sketch
 
-**Goal:** Generate a wide range of solutions individually, building on existing ideas and inspiration.
-
-Guide the user through:
-
-1. **Lightning Demos** — Review existing solutions (competitors, analogous products, internal features) for inspiration. Capture the big ideas from each.
-
-2. **Four-Step Sketch Process** (individual work):
-   - **Notes** — Review all information from Monday, take personal notes
-   - **Ideas** — Rough sketches of possible approaches (quantity over quality)
-   - **Crazy 8s** — Fold paper into 8 panels, sketch 8 variations of your strongest idea in 8 minutes. Forces rapid divergent thinking
-   - **Solution Sketch** — Create a detailed, 3-panel storyboard of your best solution (self-explanatory, no verbal pitch needed)
-
-3. Each participant creates their solution sketch anonymously — ideas stand on their own merit.
+1. **Lightning Demos** — review competitors and analogous solutions for inspiration
+2. **Four-Step Sketch** (individual):
+   - Notes → Ideas → Crazy 8s (8 variations in 8 minutes) → Solution Sketch (3-panel storyboard)
+3. Anonymous sketches — ideas stand on merit, not authority
 
 ### Wednesday — Decide
 
-**Goal:** Choose the best solution (or combination) and create a storyboard for prototyping.
-
-Guide the user through:
-
-1. **Art Museum** — Post all solution sketches on the wall. Silent review.
-
-2. **Heat Map Vote** — Everyone gets dot stickers. Place dots on the parts of sketches that stand out (not whole sketches, but specific elements). No discussion yet.
-
-3. **Speed Critique** — 3 minutes per sketch. The facilitator narrates, the team calls out standout ideas, the creator explains only what was missed. Capture ideas on sticky notes.
-
-4. **Straw Poll** — Each person gets one supervote. Place it on the solution (or element) they believe best addresses the sprint target.
-
-5. **Decider Vote** — The Decider makes the final call. Options:
-   - **One winner** — move forward with a single solution
-   - **Merge** — combine elements from multiple sketches (only if they naturally fit)
-   - **Rumble** — test 2 competing approaches in the prototype (A/B style)
-
-6. **Storyboard** — Create a detailed step-by-step storyboard (roughly 10-15 frames) of the user experience that will be prototyped. This is the blueprint for Thursday.
+1. **Art Museum** — post and silently review all sketches
+2. **Heat Map Vote** — dot-vote on standout elements
+3. **Speed Critique** — 3 min per sketch, facilitator narrates, team calls out highlights
+4. **Straw Poll + Decider Vote** — Decider makes final call: one winner, merge, or rumble (A/B)
+5. **Storyboard** — 10-15 frame blueprint for the prototype
 
 ### Thursday — Prototype
 
-**Goal:** Build a realistic-looking prototype that can be tested with real users on Friday.
+Build a realistic-enough facade:
+- UI → Figma/Keynote clickable screens
+- Service → Role-play + slides
+- Marketing → Landing page mockup
+- AI/algorithm → Wizard of Oz (human behind the curtain)
 
-Guide the user through prototype strategy:
-
-1. **Prototype mindset** — It's a facade, not a product. "Goldilocks quality" — just realistic enough to get honest reactions, not so polished that it took too long.
-
-2. **Choose the right tool:**
-   | Challenge Type | Prototype Approach |
-   |---------------|-------------------|
-   | New product/feature UI | Figma/Keynote clickable screens |
-   | Service or process | Role-play + simple props or slides |
-   | Physical product | Modified existing product or 3D-printed mock |
-   | Marketing / positioning | Landing page or ad mockup |
-   | AI / algorithm | Wizard of Oz (human mimics the AI behind the scenes) |
-
-3. **Assign roles:**
-   - **Makers** (2-3 people) — build the prototype screens/assets
-   - **Stitcher** (1 person) — assembles screens into a clickable flow
-   - **Writer** (1 person) — writes all realistic copy (no lorem ipsum)
-   - **Interviewer** (1 person) — prepares the Friday test script
-
-4. **Build together, test by end of day.** The team should do a dry-run walkthrough before Friday.
+Assign: Makers (2-3), Stitcher (1), Writer (1), Interviewer (1). Dry-run before Friday.
 
 ### Friday — Test
 
-**Goal:** Put the prototype in front of 5 real target customers and watch what happens.
+5 users, 60 min each, 30 min breaks between:
+1. **Welcome** (5 min) — test the product, not the person
+2. **Context** (10 min) — their current behavior and needs
+3. **Prototype walkthrough** (30 min) — tasks + think-aloud. No leading. "What would you do next?" / "What do you expect?"
+4. **Debrief** (10 min) — overall reactions
 
-Guide the user through:
+Team observes via live stream. Everyone notes reactions on a grid (green/red/neutral per step per user).
 
-1. **Five interviews, one day.** Research shows 5 users surface ~85% of usability issues. Schedule 60-minute sessions with 30-minute breaks between.
+**Pattern identification:**
+- 4-5/5 same reaction → strong signal, act on it
+- 3/5 → worth noting, might need more testing
+- 1-2/5 → don't overreact
 
-2. **Interview structure:**
-   - **Welcome** (5 min) — put them at ease, explain you're testing the product not them
-   - **Context questions** (10 min) — learn about their current behavior and needs
-   - **Prototype walkthrough** (30 min) — ask them to complete tasks, think aloud. No leading questions. Key phrases:
-     - "What do you think this is?"
-     - "What would you do next?"
-     - "What do you expect to happen?"
-     - "Tell me what you're thinking"
-   - **Debrief** (10 min) — overall reactions, comparisons to current tools
+**Sprint review:** For each Monday sprint question — did we get an answer? What action: build, iterate, pivot, or kill?
 
-3. **Team observation room** — the rest of the team watches a live stream. Everyone takes notes on a grid:
+## Compressed Formats
 
-   | | User 1 | User 2 | User 3 | User 4 | User 5 |
-   |---|---|---|---|---|---|
-   | Step 1: Lands on page | | | | | |
-   | Step 2: Tries to sign up | | | | | |
-   | Step 3: Creates first project | | | | | |
-   | ... | | | | | |
+| Format | Duration | When |
+|---|---|---|
+| 4-day sprint | 4 days | Combine Monday + Tuesday |
+| Mini-sprint | 2 days | Day 1: Map+Sketch+Decide+Build. Day 2: Test+Debrief |
+| Solo sprint | 2-3 days | Skip group exercises. Focus on Storyboard→Prototype→Test |
 
-   Use green (positive), red (negative), neutral for quick pattern-spotting.
+## Output
 
-4. **Pattern identification** — At the end of the day, review the grid as a team:
-   - **Strong patterns** (4-5 users had same reaction) → high confidence signal
-   - **Moderate patterns** (3 users) → worth noting, maybe test more
-   - **Weak patterns** (1-2 users) → don't overreact
+1. **Sprint brief** — challenge, goal, sprint questions, target user/moment
+2. **Map** — user journey diagram
+3. **Decision record** — what was chosen, why, what was rejected
+4. **Storyboard** — prototype blueprint
+5. **Test results** — patterns, answers to sprint questions, recommended next steps
 
-5. **Sprint review** — revisit your Monday sprint questions. For each:
-   - Did we get an answer? What was it?
-   - What action does this imply? (build, iterate, pivot, or kill)
+## After the Sprint
 
-## Compressed Sprint Formats
-
-If a full 5-day sprint isn't feasible, offer these alternatives:
-
-### 4-Day Sprint
-- Combine Monday + Tuesday into a single day (shorter mapping, faster sketching)
-- Wednesday, Thursday, Friday remain the same
-
-### Mini-Sprint (2 days)
-- **Day 1:** Map + Target (1h) → Sketch (1h) → Decide (1h) → Build prototype (rest of day)
-- **Day 2:** Test with 3-5 users → Debrief and decide
-
-### Solo Sprint (for individual PMs/founders)
-- Faster mapping and sketching (no group exercises)
-- Focus on the Storyboard → Prototype → Test loop
-- Can be done in 2-3 days alone
-
-## Output Format
-
-When facilitating, provide:
-
-1. **Sprint Brief** — challenge, long-term goal, sprint questions, target user, target moment
-2. **Map** — simple text or ASCII diagram of the user journey
-3. **HMW Notes** — organized "How Might We" questions from expert interviews
-4. **Decision Record** — what was chosen, why, what was rejected
-5. **Storyboard** — step-by-step frames for the prototype
-6. **Test Plan** — interview script, observation grid template, participant criteria
-7. **Results Summary** — patterns, answers to sprint questions, recommended next steps
-
-## Integration with Continuous Discovery
-
-A Design Sprint produces a burst of learning. Connect it back to ongoing discovery:
-- Feed sprint findings into the Opportunity Solution Tree (`/opportunity-solution-tree`)
-- Use sprint results to update assumption priorities (`/assumption-testing`)
-- Schedule follow-up customer interviews to go deeper on what you learned (`/interview-planning`)
-- The sprint is a catalyst, not a replacement for continuous discovery
+- Feed findings into `/opportunity-solution-tree`
+- Update assumption priorities via `/assumption-testing`
+- Schedule follow-up interviews via `/interview-planning`
+- **The sprint is not the end. It's a burst of learning that feeds continuous discovery.**
