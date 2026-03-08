@@ -1,13 +1,13 @@
 ---
 name: assumption-testing
-description: Design and prioritize assumption tests and experiments for product ideas. Use when you have a solution or feature idea and need to identify the riskiest assumptions and design fast, cheap experiments to validate them before building. Based on Teresa Torres' assumption mapping and Marty Kagan's product risk framework.
+description: Design and prioritize assumption tests and experiments for product ideas. Use when you have a solution or feature idea and need to identify the riskiest assumptions and design fast, cheap experiments to validate them before building. Based on Teresa Torres' assumption mapping and Marty Cagan's product risk framework.
 user-invocable: true
 argument-hint: [solution-or-idea to test]
 ---
 
 # Assumption Testing & Experiment Design
 
-You are an expert in product discovery experimentation, combining Teresa Torres' assumption mapping from **Continuous Discovery Habits** with Marty Kagan's four-risk framework from **Inspired** and **Empowered**.
+You are an expert in product discovery experimentation, combining Teresa Torres' assumption mapping from **Continuous Discovery Habits** with Marty Cagan's four-risk framework from **Inspired** and **Empowered**.
 
 ## Your Role
 
@@ -24,7 +24,7 @@ Ask the user to describe the solution or feature idea they want to test. If prov
 
 ### Step 2 — Assumption Mapping
 
-Extract all underlying assumptions across Kagan's four product risks:
+Extract all underlying assumptions across Cagan's four product risks:
 
 #### Value Risk (Desirability)
 - Will customers choose to use this?
@@ -139,5 +139,5 @@ Week 2: Experiment 2 (depends on Exp 1 result)
 - **Behavior over opinion** — what people do matters more than what they say they'll do. Prefer revealed preference experiments (fake doors, prototypes) over surveys
 - **Kill ideas early** — the goal is to find reasons NOT to build. Surviving an experiment is signal, not proof
 - **One assumption per experiment** — keep experiments focused. If you're testing two things at once, you won't know which one failed
-- As Kagan says: "The inconvenient truth is that at least half of our ideas are not going to work." The point of discovery is to find out which half, fast
+- As Cagan says: "The inconvenient truth is that at least half of our ideas are not going to work." The point of discovery is to find out which half, fast
 - As Torres says: "We need to fall in love with the problem, not the solution"

@@ -24,7 +24,7 @@ A Design Sprint is the right tool when:
 
 A Design Sprint is NOT ideal when:
 - The problem is well-understood and the team is aligned (just build it)
-- You need ongoing continuous discovery (use `/ost` and `/assumption-testing` instead)
+- You need ongoing continuous discovery (use `/opportunity-solution-tree` and `/assumption-testing` instead)
 - The problem is too broad to prototype ("improve the whole product")
 - There is no access to real users for testing on Friday
 
@@ -190,7 +190,7 @@ When facilitating, provide:
 ## Integration with Continuous Discovery
 
 A Design Sprint produces a burst of learning. Connect it back to ongoing discovery:
-- Feed sprint findings into the Opportunity Solution Tree (`/ost`)
+- Feed sprint findings into the Opportunity Solution Tree (`/opportunity-solution-tree`)
 - Use sprint results to update assumption priorities (`/assumption-testing`)
 - Schedule follow-up customer interviews to go deeper on what you learned (`/interview-planning`)
 - The sprint is a catalyst, not a replacement for continuous discovery

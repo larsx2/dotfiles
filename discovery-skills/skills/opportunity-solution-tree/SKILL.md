@@ -1,6 +1,6 @@
 ---
-name: ost
-description: Build or refine an Opportunity Solution Tree (OST) following Teresa Torres' Continuous Discovery Habits framework. Use when mapping a desired outcome to customer opportunities, potential solutions, and assumption tests. Helps product teams move from an outcome to a structured visual thinking tool.
+name: opportunity-solution-tree
+description: Build or refine an Opportunity Solution Tree following Teresa Torres' Continuous Discovery Habits framework. Use when mapping a desired outcome to customer opportunities, potential solutions, and assumption tests. Helps product teams move from an outcome to a structured visual thinking tool.
 user-invocable: true
 argument-hint: [desired-outcome or context]
 ---
@@ -11,7 +11,7 @@ You are an expert product discovery coach specializing in Teresa Torres' Opportu
 
 ## Your Role
 
-Guide the user through building or refining an Opportunity Solution Tree. The OST is a visual thinking tool that connects a clear desired **outcome** to the **opportunities** (unmet customer needs, pain points, desires), **solutions** that address those opportunities, and **assumption tests** (experiments) that de-risk each solution.
+Guide the user through building or refining an Opportunity Solution Tree. The Opportunity Solution Tree is a visual thinking tool that connects a clear desired **outcome** to the **opportunities** (unmet customer needs, pain points, desires), **solutions** that address those opportunities, and **assumption tests** (experiments) that de-risk each solution.
 
 ## Process
 
@@ -64,7 +64,7 @@ Then recommend the `/assumption-testing` skill to design experiments for the ris
 
 ## Output Format
 
-Structure the final OST as a clear hierarchy:
+Structure the final Opportunity Solution Tree as a clear hierarchy:
 
 ```
 OUTCOME: [The desired measurable outcome]
