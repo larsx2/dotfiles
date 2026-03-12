@@ -1,4 +1,5 @@
-export GIT_PAGER="bat --style grid,numbers"
+# Let gitconfig core.pager (delta) handle this
+# export GIT_PAGER="bat --style grid,numbers"
 
 export FZF_DEFAULT_OPTS=$'--bind=ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down,ctrl-b:preview-page-up,ctrl-f:preview-page-down,alt-k:preview-up,alt-j:preview-down'
 
@@ -89,5 +90,10 @@ alias gcof="git branch --sort=-committerdate --format='%(committerdate:iso-stric
   | cut -d' ' -f2 \
   | xargs git checkout"
 
-gdf() { git diff -- "$(git diff --name-only HEAD | fzf -1 -0 -q "$1")"; }
+gdf() { git diff -- "$(git diff --name-only origin/HEAD | fzf -1 -0 -q "$1")"; }
 gdfc() { git diff --cached -- "$(git diff --name-only --cached | fzf -1 -0 -q "$1")"; }
+
+gdv () { git diff -w "$@" | nvim -R - }
+
+alias ghview="gh pr view"
+alias ghcomm="gh pr comment -e"
