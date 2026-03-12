@@ -32,11 +32,7 @@ dnuke() {
   
   local count=$(docker ps -aq | wc -l)
   echo "⚠️  About to nuke $count container(s)"
-  echo -n "Are you sure? (y/N): "
-  read -r confirm
-  
-  if [[ "$confirm" =~ ^[Yy]$ ]]; then
-    # This ensures all IDs are passed correctly
+  if gum confirm "Nuke $count container(s)?"; then
     docker ps -aq | xargs docker rm -f
     echo "✅ All containers nuked!"
   else
