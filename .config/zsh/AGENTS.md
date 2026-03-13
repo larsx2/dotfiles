@@ -1,7 +1,10 @@
 # Zsh Aliases — Agent Reference
 
-Non-interactive commands for AI agents. All commands avoid fzf and
-interactive prompts when given exact arguments.
+Non-interactive commands for AI agents.
+
+**Dual-mode functions** (zellij aliases) accept exact arguments to skip fzf.
+**Interactive-only functions** (git, worktree, ft) use fzf/gum and have no
+flag mode — raw command equivalents are listed below for each.
 
 ## Dependencies
 
@@ -43,31 +46,62 @@ Notes:
 
 ## Git (`git-aliases.zsh`)
 
-Most git aliases use fzf and are interactive. Agent-safe commands:
+Most git aliases use fzf and are not agent-safe. Use the aliases and
+equivalents below.
+
+**Agent-safe aliases:**
 
 | Task | Command |
 |------|---------|
 | Diff vs main | `gdpr` |
-| List changed files vs main | `git diff --name-only origin/main...HEAD` |
 | Stash unstaged only | `gtk` |
 | View PR | `ghview` |
 | Comment on PR | `ghcomm` |
 
-For staging, committing, and branching, agents should use `git` directly
-rather than the fzf-based aliases.
+**Equivalents for interactive aliases:**
+
+| Interactive alias | Agent equivalent |
+|-------------------|-----------------|
+| `gb` (switch branch) | `git checkout <branch>` |
+| `gprls` (checkout PR) | `gh pr checkout <number>` |
+| `gstage` (stage files) | `git add <file> [file2 ...]` |
+| `gunstage` (unstage files) | `git restore --staged <file>` |
+| `gstfp` (pick modified file) | `git status --porcelain` then open file |
+| `gcnfp` (pick conflict file) | `git diff --name-only --diff-filter=U` |
+| `gcv` (browse commits) | `git log --oneline` |
+| `gstv` (browse stashes) | `git stash list` |
 
 ## Worktrees (`worktree-aliases.zsh`)
 
-Most worktree commands are interactive (fzf/gum). Agent-safe commands:
+The interactive aliases (`gw`, `gwa`, `gwls`, `gwrm`, `gwpr`) use fzf/gum
+and are not agent-safe. Use the equivalent commands below instead.
 
 | Task | Command |
 |------|---------|
 | List worktrees | `git worktree list` |
+| cd to worktree | `cd .worktrees/<folder>` |
+| Navigate worktrees | `gwn` (next), `gwp` (prev), `gwo` (toggle last) |
 | Add worktree (existing branch) | `git worktree add .worktrees/<folder> <branch>` |
 | Add worktree (new branch) | `git worktree add .worktrees/<folder> -b <branch> HEAD` |
+| Add worktree from remote | `git fetch origin <branch> && git worktree add .worktrees/<folder> -b <branch> --track origin/<branch>` |
+| Add worktree from PR | `gh pr checkout <number> -- -b .worktrees/pr-<number>` or see below |
 | Remove worktree | `git worktree remove .worktrees/<folder>` |
 | Force remove worktree | `git worktree remove --force .worktrees/<folder>` |
-| Navigate worktrees | `gwn` (next), `gwp` (prev), `gwo` (toggle last) |
+| Remove + delete branch | `git worktree remove --force .worktrees/<folder> && git branch -D <branch>` |
+| Prune stale worktrees | `git worktree prune` |
+
+**Worktree from PR (step by step):**
+
+```sh
+# Get the PR branch name
+pr_branch=$(gh pr view <number> --json headRefName --jq '.headRefName')
+# Fetch it
+git fetch origin "$pr_branch"
+# Create worktree
+git worktree add ".worktrees/pr-<number>" -b "$pr_branch" --track "origin/$pr_branch"
+# Or if local branch already exists
+git worktree add ".worktrees/pr-<number>" "$pr_branch"
+```
 
 Notes:
 - Worktrees are stored in `.worktrees/` at the repo root.
@@ -118,11 +152,13 @@ All docker aliases are non-interactive and agent-safe:
 
 ## General rules
 
+- **Zellij aliases** are dual-mode: no args = fzf, exact args = direct.
+  Agents should always pass exact names.
+- **Git, worktree, and ft aliases** are interactive-only (fzf/gum).
+  Agents should use the raw command equivalents documented above.
+- **Docker aliases** are simple 1:1 mappings and always agent-safe.
 - Confirmation prompts use `gum confirm`. Force flags (`-f`) bypass them.
-- Functions with fzf fall back to interactive mode on partial matches.
-  Agents must use exact names to stay non-interactive.
-- When in doubt, use the underlying tool directly (`git`, `zellij`, `docker`)
-  rather than the aliases.
+- When in doubt, use the underlying tool directly (`git`, `zellij`, `docker`).
 
 ## Source locations
 
