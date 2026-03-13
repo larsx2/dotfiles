@@ -3,6 +3,21 @@
 Non-interactive commands for AI agents. All commands avoid fzf and
 interactive prompts when given exact arguments.
 
+## Dependencies
+
+These tools must be installed for the aliases to work:
+
+| Tool | Used by | Check |
+|------|---------|-------|
+| `fzf` | All interactive pickers (agents avoid these) | `which fzf` |
+| `gum` | Confirmation prompts (agents bypass with `-f` flags) | `which gum` |
+| `zellij` | Session management | `which zellij` |
+| `gh` | PR workflows (`gprls`, `gwpr`, `ftpr`) | `which gh` |
+| `nvim` | File pickers that open editor | `which nvim` |
+| `delta` | Git diff pager | `which delta` |
+
+If a command fails silently, check the dependency first.
+
 ## Zellij sessions (`zellij-aliases.zsh`)
 
 | Task | Command |
