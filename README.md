@@ -65,7 +65,7 @@ Then add these to your `~/.zshrc`:
   tasks/         Task runner configs
   zellij/        Zellij config + layouts
   zsh/           Zsh alias modules (see .config/zsh/README.md)
-.pi/agent/       Pi settings, models, keybindings, extensions, and theme
+.pi/agent/       Pi settings, models, keybindings, and theme
 ghostty/         Ghostty terminal config
 .gitconfig       Git config
 ```
