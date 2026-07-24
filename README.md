@@ -29,6 +29,14 @@ cp -r ~/Code/dotfiles/.config/nvim/ ~/.config/nvim/
 mkdir -p ~/.config/gh
 cp ~/Code/dotfiles/.config/gh/config.yml ~/.config/gh/
 
+# Herdr
+mkdir -p ~/.config/herdr
+cp ~/Code/dotfiles/.config/herdr/config.toml ~/.config/herdr/
+
+# Pi (credentials are intentionally excluded; run /login on each machine)
+mkdir -p ~/.pi/agent
+cp -R ~/Code/dotfiles/.pi/agent/. ~/.pi/agent/
+
 # Ghostty
 mkdir -p ~/.config/ghostty
 cp -r ~/Code/dotfiles/ghostty/ ~/.config/ghostty/
@@ -52,10 +60,12 @@ Then add these to your `~/.zshrc`:
 ```
 .config/
   gh/            GitHub CLI config
+  herdr/         Herdr config and keybindings
   nvim/          Neovim config
   tasks/         Task runner configs
   zellij/        Zellij config + layouts
   zsh/           Zsh alias modules (see .config/zsh/README.md)
+.pi/agent/       Pi settings, models, keybindings, extensions, and theme
 ghostty/         Ghostty terminal config
 .gitconfig       Git config
 ```

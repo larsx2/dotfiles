@@ -1,0 +1,23 @@
+{
+  "packages": [
+    "npm:@juanibiapina/pi-extension-settings",
+    "npm:pi-powerline-footer",
+    "npm:pi-subagents",
+    "npm:pi-web-access",
+    "npm:@dietrichgebert/ponytail"
+  ],
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.6-sol",
+  "enabledModels": [
+    "openai-codex/gpt-5.6-sol:xhigh",
+    "openai-codex/gpt-5.6-luna:minimal",
+    "anthropic/claude-opus-5:xhigh"
+  ],
+  "hideThinkingBlock": true,
+  "defaultThinkingLevel": "high",
+  "extensions": [
+    "+extensions/file-watcher-tool.ts"
+  ],
+  "theme": "catppuccin-mocha",
+  "quietStartup": true
+}
