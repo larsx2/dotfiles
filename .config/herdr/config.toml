@@ -1,0 +1,63 @@
+# Herdr keymap modeled after ~/.config/zellij/config.kdl
+onboarding = false
+
+[theme]
+name = "catppuccin-mocha"
+
+[terminal]
+shell_mode = "auto"
+new_cwd = "follow"
+
+[keys]
+prefix = "ctrl+a"
+goto = "prefix+f"
+help = "prefix+?"
+new_tab = ["prefix+c", "ctrl+alt+c"]
+next_tab = ["prefix+]", "ctrl+alt+]"]
+previous_tab = ["prefix+[", "ctrl+alt+["]
+switch_tab = "prefix+1..9"
+close_tab = "prefix+shift+x"
+rename_tab = "prefix+shift+r"
+
+focus_pane_left = ["prefix+h", "ctrl+alt+h"]
+focus_pane_down = ["prefix+j", "ctrl+alt+j"]
+focus_pane_up = ["prefix+k", "ctrl+alt+k"]
+focus_pane_right = ["prefix+l", "ctrl+alt+l"]
+cycle_pane_next = "prefix+tab"
+cycle_pane_previous = "prefix+shift+tab"
+last_pane = "prefix+o"
+close_pane = "prefix+x"
+zoom = ["prefix+z", "ctrl+alt+z"]
+rename_pane = "prefix+shift+c"
+split_horizontal = "prefix+minus"
+split_vertical = "prefix+_"
+resize_mode = "prefix+shift+n"
+new_workspace = "prefix+n"
+copy_mode = "prefix+s"
+edit_scrollback = "prefix+e"
+detach = "prefix+q"
+reload_config = "prefix+r"
+
+# Zellij-like direct Alt navigation
+navigate_pane_left = "alt+h"
+navigate_pane_down = "alt+j"
+navigate_pane_up = "alt+k"
+navigate_pane_right = "alt+l"
+next_workspace = "prefix+}"
+previous_workspace = "prefix+{"
+next_agent = "prefix+>"
+previous_agent = "prefix+<"
+
+[ui]
+mouse_capture = true
+copy_on_select = true
+pane_borders = true
+pane_gaps = true
+hide_tab_bar_when_single_tab = false
+
+agent_panel_sort = "spaces"
+[ui.toast]
+delivery = "herdr"
+
+[session]
+resume_agents_on_restore = true

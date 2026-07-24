@@ -1,0 +1,14 @@
+.pi/agent/auth.json
+.pi/agent/trust.json
+.pi/agent/sessions/
+.pi/agent/npm/
+.pi/agent/git/
+.pi/agent/*.log
+.pi/agent/models-store.json
+.pi/agent/run-history.jsonl
+.pi/agent/.update-check
+.config/herdr/*.log
+.config/herdr/*.sock
+.config/herdr/session.json
+.config/herdr/release-notes.json
+.config/herdr/*.bak*
