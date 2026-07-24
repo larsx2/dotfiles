@@ -7,7 +7,7 @@ Some configurations I want to keep around different devices.
 Clone the repo:
 
 ```sh
-git clone <repo-url> ~/Code/dotfiles
+git clone https://github.com/larsx2/dotfiles.git "$HOME/.dotfiles"
 ```
 
 Copy what you need:
@@ -15,34 +15,34 @@ Copy what you need:
 ```sh
 # Zsh modules (aliases, functions, completions)
 mkdir -p ~/.config/zsh
-cp ~/Code/dotfiles/.config/zsh/*.zsh ~/.config/zsh/
+cp "$HOME/.dotfiles/.config/zsh/"*.zsh ~/.config/zsh/
 
 # Zellij config + layouts
 mkdir -p ~/.config/zellij
-cp -r ~/Code/dotfiles/.config/zellij/ ~/.config/zellij/
+cp -r "$HOME/.dotfiles/.config/zellij/." ~/.config/zellij/
 
 # Neovim
 mkdir -p ~/.config/nvim
-cp -r ~/Code/dotfiles/.config/nvim/ ~/.config/nvim/
+cp -r "$HOME/.dotfiles/.config/nvim/." ~/.config/nvim/
 
 # GitHub CLI
 mkdir -p ~/.config/gh
-cp ~/Code/dotfiles/.config/gh/config.yml ~/.config/gh/
+cp "$HOME/.dotfiles/.config/gh/config.yml" ~/.config/gh/
 
 # Herdr
 mkdir -p ~/.config/herdr
-cp ~/Code/dotfiles/.config/herdr/config.toml ~/.config/herdr/
+cp "$HOME/.dotfiles/.config/herdr/config.toml" ~/.config/herdr/
 
 # Pi (credentials are intentionally excluded; run /login on each machine)
 mkdir -p ~/.pi/agent
-cp -R ~/Code/dotfiles/.pi/agent/. ~/.pi/agent/
+cp -R "$HOME/.dotfiles/.pi/agent/." ~/.pi/agent/
 
 # Ghostty
 mkdir -p ~/.config/ghostty
-cp -r ~/Code/dotfiles/ghostty/ ~/.config/ghostty/
+cp -r "$HOME/.dotfiles/ghostty/." ~/.config/ghostty/
 
 # Git
-cp ~/Code/dotfiles/.gitconfig ~/.gitconfig
+cp "$HOME/.dotfiles/.gitconfig" ~/.gitconfig
 ```
 
 Then add these to your `~/.zshrc`:
