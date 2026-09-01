@@ -21,6 +21,19 @@ These tools must be installed for the aliases to work:
 
 If a command fails silently, check the dependency first.
 
+## Herdr sessions (`herdr-aliases.zsh`)
+
+| Task | Command |
+|------|---------|
+| Show status | `hst` |
+| List sessions | `hsl` |
+| Attach to session | `hsa <name>` |
+| Stop session | `hss <name>` |
+| Delete stopped session | `hsd <name>` |
+
+Use `h` for the full `herdr` command. Pass exact session names to avoid
+interactive behavior.
+
 ## Zellij sessions (`zellij-aliases.zsh`)
 
 | Task | Command |
@@ -164,6 +177,7 @@ All docker aliases are non-interactive and agent-safe:
 
 | File | Path |
 |------|------|
+| Herdr aliases | `~/.config/zsh/herdr-aliases.zsh` |
 | Zellij aliases | `~/.config/zsh/zellij-aliases.zsh` |
 | Git aliases | `~/.config/zsh/git-aliases.zsh` |
 | Worktree aliases | `~/.config/zsh/worktree-aliases.zsh` |

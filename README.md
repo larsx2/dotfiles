@@ -52,6 +52,7 @@ Then add these to your `~/.zshrc`:
 [ -s ~/.config/zsh/worktree-aliases.zsh ] && source ~/.config/zsh/worktree-aliases.zsh
 [ -s ~/.config/zsh/docker-aliases.zsh ] && source ~/.config/zsh/docker-aliases.zsh
 [ -s ~/.config/zsh/zellij-aliases.zsh ] && source ~/.config/zsh/zellij-aliases.zsh
+[ -s ~/.config/zsh/herdr-aliases.zsh ] && source ~/.config/zsh/herdr-aliases.zsh
 [ -s ~/.config/zsh/ft.zsh ] && source ~/.config/zsh/ft.zsh
 ```
 
