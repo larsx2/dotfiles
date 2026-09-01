@@ -18,6 +18,7 @@ Sourced from `~/.zshrc`. Each file is a self-contained module.
 | File | Purpose |
 |------|---------|
 | `zellij-aliases.zsh` | Zellij session management |
+| `herdr-aliases.zsh` | Herdr session shortcuts |
 | `git-aliases.zsh` | Git shortcuts with fzf |
 | `worktree-aliases.zsh` | Git worktree management |
 | `ft.zsh` | Zellij tabs + worktrees (session = project, tab = feature) |
@@ -44,6 +45,17 @@ Also: `~/.zc.sh` — `zn` / `zd` for worktree-based zellij sessions.
 
 MRU history stored in `~/.cache/zp_history` (auto-trimmed to 500 entries).
 Delete the file to reset ordering.
+
+### Herdr (`herdr-aliases.zsh`)
+
+| Command | What it does |
+|---------|-------------|
+| `h` | Alias for `herdr` |
+| `hst` | Show Herdr status |
+| `hsl` | List sessions |
+| `hsa <name>` | Attach to a session |
+| `hss <name>` | Stop a session |
+| `hsd <name>` | Delete a stopped session |
 
 ### Git (`git-aliases.zsh`)
 
