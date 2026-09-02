@@ -1,7 +1,7 @@
 # Herdr aliases
 alias h="herdr"
-alias hst="herdr status"
-alias hsl="herdr session list"
-alias hsa="herdr session attach"
-alias hss="herdr session stop"
-alias hsd="herdr session delete"
+alias ht="herdr status"
+alias hl="herdr session list"
+alias ha="herdr session attach"
+alias hs="herdr session stop"
+alias hd="herdr session delete"

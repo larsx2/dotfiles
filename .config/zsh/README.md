@@ -51,11 +51,11 @@ Delete the file to reset ordering.
 | Command | What it does |
 |---------|-------------|
 | `h` | Alias for `herdr` |
-| `hst` | Show Herdr status |
-| `hsl` | List sessions |
-| `hsa <name>` | Attach to a session |
-| `hss <name>` | Stop a session |
-| `hsd <name>` | Delete a stopped session |
+| `ht` | Show Herdr status |
+| `hl` | List sessions |
+| `ha <name>` | Attach to a session |
+| `hs <name>` | Stop a session |
+| `hd <name>` | Delete a stopped session |
 
 ### Git (`git-aliases.zsh`)
 
