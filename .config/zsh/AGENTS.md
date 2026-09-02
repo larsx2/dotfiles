@@ -25,11 +25,11 @@ If a command fails silently, check the dependency first.
 
 | Task | Command |
 |------|---------|
-| Show status | `hst` |
-| List sessions | `hsl` |
-| Attach to session | `hsa <name>` |
-| Stop session | `hss <name>` |
-| Delete stopped session | `hsd <name>` |
+| Show status | `ht` |
+| List sessions | `hl` |
+| Attach to session | `ha <name>` |
+| Stop session | `hs <name>` |
+| Delete stopped session | `hd <name>` |
 
 Use `h` for the full `herdr` command. Pass exact session names to avoid
 interactive behavior.
