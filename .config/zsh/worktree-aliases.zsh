@@ -70,10 +70,10 @@ gwls() {
 
     [[ -z "$selected" ]] && return
 
-    local path=${selected%%$'\t'*}
-    local marker=$(git -C "$path" rev-parse --path-format=absolute --git-path gwl-last-access 2>/dev/null)
+    local worktree_path=${selected%%$'\t'*}
+    local marker=$(git -C "$worktree_path" rev-parse --path-format=absolute --git-path gwl-last-access 2>/dev/null)
     [[ -n "$marker" ]] && touch "$marker"
-    [[ -n "$path" ]] && _GW_LAST="$PWD" && cd "$path"
+    [[ -n "$worktree_path" ]] && _GW_LAST="$PWD" && cd "$worktree_path"
 }
 alias gwl=gwls
 
