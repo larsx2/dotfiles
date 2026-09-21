@@ -49,19 +49,31 @@ gwapr() {
 alias gwpr=gwapr
 
 gwls() {
-    local selected=$(git worktree list | awk '{
-        full_path = $1
-        folder = full_path
-        gsub(/.*\//, "", folder)
-        branch = $NF
-        gsub(/[\[\]]/, "", branch)
-        printf "%s\t\033[36m[%s]\033[0m → %s\n", full_path, branch, folder
-    }' | fzf --ansi --with-nth=2.. --delimiter='\t' --header="Select worktree" --reverse)
+    local selected=$(
+        local line candidate_path marker accessed
+        while IFS= read -r line; do
+            candidate_path=${line%% *}
+            marker=$(git -C "$candidate_path" rev-parse --path-format=absolute --git-path gwl-last-access 2>/dev/null)
+            accessed=0
+            [[ -e "$marker" ]] && accessed=$(stat -f %m "$marker")
+            printf "%s\t%s\n" "$accessed" "$line"
+        done < <(git worktree list) |
+        sort -snr | cut -f2- | awk '{
+            full_path = $1
+            folder = full_path
+            gsub(/.*\//, "", folder)
+            branch = $NF
+            gsub(/[\[\]]/, "", branch)
+            printf "%s\t\033[36m[%s]\033[0m → %s\n", full_path, branch, folder
+        }' | fzf --ansi --with-nth=2.. --delimiter='\t' --header="Select worktree" --reverse
+    )
 
     [[ -z "$selected" ]] && return
 
-    local path=${selected%%$'\t'*}
-    [[ -n "$path" ]] && _GW_LAST="$PWD" && cd "$path"
+    local worktree_path=${selected%%$'\t'*}
+    local marker=$(git -C "$worktree_path" rev-parse --path-format=absolute --git-path gwl-last-access 2>/dev/null)
+    [[ -n "$marker" ]] && touch "$marker"
+    [[ -n "$worktree_path" ]] && _GW_LAST="$PWD" && cd "$worktree_path"
 }
 alias gwl=gwls
 
